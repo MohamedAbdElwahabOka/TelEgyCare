@@ -1,6 +1,21 @@
+'use client'
+import React, { useEffect, useState } from 'react'
 import Image from "next/image";
-
+import ProductApis from './_utils/ProductApis'
 export default function Home() {
+  const [tests, setTests] = useState([]);
+  useEffect(() => {
+    getTests_();
+  }, [])
+
+  const getTests_ = () => {
+    ProductApis.getTests().then(res => {
+      console.log(res.data.data);
+      // setLatestProducts(res.data.data);
+      // setLoading(true)
+
+    })
+  }
   return (
     <main className="flex min-h-screen flex-col items-center justify-between p-24">
       <div className="z-10 max-w-5xl w-full items-center justify-between font-mono text-sm lg:flex">

@@ -56,3 +56,16 @@ export default function Home() {
     </main>
   );
 }
+
+
+// import Image from "next/image";
+// import Login from "./_components/Login";
+// // import SignUp from "./_components/SignUp";
+// // import Search from "./_components/FindConsultant";
+// export default function Home() {
+//   return (
+//    <><Login/>
+//    {/* <SignUp/>*/}
+//    {/* <Search/>*/}</>  
+//   );
+// }

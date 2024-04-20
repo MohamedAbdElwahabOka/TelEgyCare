@@ -2,6 +2,7 @@
 import React, { useEffect, useState } from 'react'
 import Image from "next/image";
 import ProductApis from './_utils/ProductApis'
+import Home_page from './_components/Home_page';
 export default function Home() {
   const [tests, setTests] = useState([]);
   useEffect(() => {
@@ -54,5 +55,6 @@ export default function Home() {
 
 
     </main>
+
   );
 }

@@ -4,18 +4,39 @@ import React, { useState } from 'react';
 import Image from 'next/image';
 import Link from 'next/link';
 import logo from './img/logo.png';
-const Signin = () => {
-  const [email, setEmail] = useState('');
+import { useRouter } from 'next/navigation';
+
+const Signin = ({data}) => {
+  const [registrationNumber, setRegistrationNumber] = useState('');
   const [password, setPassword] = useState('');
+  const [ErrorMessage, setErrorMessage] = useState('');
+
+  const router = useRouter();
+
+  // const handleSubmit = (e) => {
+  //   e.preventDefault();
+  // };
 
   const handleSubmit = (e) => {
     e.preventDefault();
+    const user = data.find(
+      (item) =>
+        item.attributes.reg_Num == registrationNumber &&
+        item.attributes.Password == password
+    );
+    if (!user) {
+      setErrorMessage('Invalid registration number or password.');
+    } else {
+      router.push(`/Homepage`);
+
+
+    }
   };
 
   return (
     <div className="bg-white h-screen flex justify-center items-center border border-gray-300">
       <div className="flex-1 max-w-lg w-full mx-auto">
-        <form onSubmit={handleSubmit} className="space-y-6">
+        <form onSubmit={(e) => handleSubmit(e)} className="space-y-6">
           <div className="flex items-center justify-center">
             <Image src={logo} alt="Logo" width={150} height={75} />
           </div>
@@ -25,19 +46,18 @@ const Signin = () => {
             </p>
           </div>
           <div>
-            <label htmlFor="email" className="block text-xl font-medium text-gray-700">
-              Email
+            <label className="block text-xl font-medium text-gray-700">
+            registration Number
             </label>
             <div className="mt-1">
               <input
-                id="email"
-                name="email"
-                type="email"
-                autoComplete="email"
+                id="registration Number"
+                name="registration Number"
+                // autoComplete="email"
                 required
-                className="appearance-none block w-full px-5 py-3 border border-gray-300 rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
-                value={email}
-                onChange={(e) => setEmail(e.target.value)}
+                className="appearance-none text-black block w-full px-5 py-3 border border-gray-300 rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
+                value={registrationNumber}
+                onChange={(e) => setRegistrationNumber(e.target.value)}
               />
             </div>
           </div>
@@ -53,21 +73,22 @@ const Signin = () => {
                 type="password"
                 autoComplete="current-password"
                 required
-                className="appearance-none block w-full px-5 py-3 border border-gray-300 rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
+                className="appearance-none text-black block w-full px-5 py-3 border border-gray-300 rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
               />
             </div>
           </div>
-
+          <div className="text-red-500">{ErrorMessage}</div>
           <div>
-            <Link
+            <button
+            onClick={(e)=> handleSubmit(e)}
              href="Homepage"
               type="submit"
-              className="flex justify-center py-3 px-5 border border-transparent rounded-md shadow-sm text-xl font-medium text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
+              className="w-full flex justify-center py-3 px-5 border border-transparent rounded-md shadow-sm text-xl font-medium text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
             >
               Sign in
-            </Link>
+            </button>
           </div>
           <div>
             <Link

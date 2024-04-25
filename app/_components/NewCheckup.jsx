@@ -33,7 +33,7 @@ export default function Component() {
                                         <span>Patient Details</span>
                                     </div>
                                 </div>
-                                <div className="grid grid-cols-1 gap-4 mt-4 dark:text-black">
+                                <div className="grid grid-cols-1 gap-4 mt-4">
                                     {patientDetails.map((detail, index) => (
                                         <div key={index}>
                                             <div className="text-sm text-blue-500 font-bold">{detail.label}</div>

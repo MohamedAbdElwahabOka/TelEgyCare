@@ -7,10 +7,12 @@ import lab from '/public/Lab.png'
 import chat from '/public/chat.png'
 import newcheckup from '/public/new checkup.png'
 import list from '/public/list-icon-png-19.jpg'
-function HomePage() {
+function HomePage({data}) {
+  // console.log(data[0].attributes.Name)
   return (
     <div>
-      <header className="bg-gray-100 text-blue-500 py-5">
+      {data.map((item, index) => (
+      <header key={index} className="bg-gray-100 text-blue-500 py-5">
         <div className="container mx-auto flex justify-between items-center">
           <div>
           <Image src={logo} width={60} height={60} className="text-blue-500" />
@@ -19,7 +21,7 @@ function HomePage() {
           <nav>
             <ul className="flex space-x-6 md:space-x-8">
             <li>
-            <h4 className="nav-link">Hello, Dr.Abdelrahman</h4>
+            <h4 className="nav-link"> Hello ,Dr.{item?.attributes?.Name}</h4>
             </li>
             <li>
             <Image src={logo} width={40} height={40} className="text-blue-500 nav-link" />
@@ -31,7 +33,7 @@ function HomePage() {
               The Best Quality <br />
               Service You Can Get
             </h3>
-      </header>
+      </header>))}
 
       <section className="bg-white py-12">
         <div className="container mx-auto flex justify-between items-center">
@@ -51,7 +53,7 @@ function HomePage() {
           <div className="grid grid-cols-3 sm:grid-cols-3 gap-8">
             <Link
               className="flex flex-col items-center justify-center space-y-4 bg-blue-400 dark:bg-gray-800 shadow-lg rounded-xl p-6 hover:bg-gray-50 dark:hover:bg-gray-700 transition-colors"
-              href="FindAConsultant"
+              href="/FindAConsultant"
             >
               <Image
                 src={doctor}
@@ -64,7 +66,7 @@ function HomePage() {
             </Link>
             <Link
               className="flex flex-col items-center justify-center space-y-4 bg-blue-300 dark:bg-gray-800 shadow-lg rounded-xl p-6 hover:bg-gray-50 dark:hover:bg-gray-700 transition-colors"
-              href="TestResults"
+              href="/TestResults"
             >
               <Image
                 alt="Existing Patient"
@@ -77,7 +79,7 @@ function HomePage() {
             </Link>
             <Link
               className="flex flex-col items-center justify-center space-y-4 bg-blue-200 dark:bg-gray-800 shadow-lg rounded-xl p-6 hover:bg-gray-50 dark:hover:bg-gray-700 transition-colors"
-              href="ToLab"
+              href="/ToLab"
             >
               <Image
                 alt="Hospital"
@@ -103,7 +105,7 @@ function HomePage() {
             </Link>
             <Link
               className="flex flex-col items-center justify-center space-y-4 bg-blue-400 dark:bg-gray-800 shadow-lg rounded-xl p-6 hover:bg-gray-50 dark:hover:bg-gray-700 transition-colors"
-              href="Manage_app"
+              href="/NewCheckUP"
             >
               <Image
                 alt="Hospital"

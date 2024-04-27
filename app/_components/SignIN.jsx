@@ -21,13 +21,13 @@ const Signin = ({data}) => {
     e.preventDefault();
     const user = data.find(
       (item) =>
-        item.attributes.reg_Num == registrationNumber &&
-        item.attributes.Password == password
+        item?.attributes?.reg_Num == registrationNumber &&
+        item?.attributes?.Password == password
     );
     if (!user) {
       setErrorMessage('Invalid registration number or password.');
     } else {
-      router.push(`/Homepage`);
+      router.push(`/Homepage/${user?.attributes?.reg_Num}`);
 
 
     }

@@ -359,7 +359,7 @@
 "use client"
 
 import React, { useState } from 'react';
-import Swal from 'sweetalert2'; // Import SweetAlert2
+// import Swal from 'sweetalert2'; // Import SweetAlert2
 import Link from 'next/link';
 
 const SignUp = () => {
@@ -412,28 +412,28 @@ const SignUp = () => {
     body: JSON.stringify(formData),
     });
         
-  if (response.ok) {
-    const data = await response.json();
-    if (data.success) {
-      Swal.fire({
-        title: 'Sign Up Successful!',
-        text: 'Welcome to our platform!',
-        icon: 'success',
-      });
-    } else {
-      Swal.fire({
-        title: 'Error',
-        text: data.message || 'An error occurred during signup.',
-        icon: 'error',
-      });
-    }
-  } else {
-    Swal.fire({
-      title: 'Error',
-      text: 'An error occurred during signup.',
-      icon: 'error',
-    });
-  }
+  // if (response.ok) {
+  //   const data = await response.json();
+  //   if (data.success) {
+  //     Swal.fire({
+  //       title: 'Sign Up Successful!',
+  //       text: 'Welcome to our platform!',
+  //       icon: 'success',
+  //     });
+  //   } else {
+  //     Swal.fire({
+  //       title: 'Error',
+  //       text: data.message || 'An error occurred during signup.',
+  //       icon: 'error',
+  //     });
+  //   }
+  // } else {
+  //   Swal.fire({
+  //     title: 'Error',
+  //     text: 'An error occurred during signup.',
+  //     icon: 'error',
+  //   });
+  // }
 } catch (error) {
   console.error(error);
   Swal.fire({

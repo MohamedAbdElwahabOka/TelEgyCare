@@ -105,7 +105,7 @@ function HomePage({data}) {
             </Link>
             <Link
               className="flex flex-col items-center justify-center space-y-4 bg-blue-400 dark:bg-gray-800 shadow-lg rounded-xl p-6 hover:bg-gray-50 dark:hover:bg-gray-700 transition-colors"
-              href="/NewCheckUP"
+              href="/TableCheckUP"
             >
               <Image
                 alt="Hospital"

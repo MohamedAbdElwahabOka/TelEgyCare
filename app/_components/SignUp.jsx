@@ -9,7 +9,7 @@ const SignUp = () => {
   const [Name, setName] = useState('');
   const [Password, setPassword] = useState('');
   // const [VerifyPassword, setVerifyPassword] = useState('');
-  const [phone, setPhone] = useState('');
+  const [Phone, setPhone] = useState('');
   const [Email, setEmail] = useState('');
   // const [Adress, setAdress] = useState('');
   const [NationalID, setNationalID] = useState('');

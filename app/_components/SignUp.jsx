@@ -39,15 +39,16 @@ const SignUp = () => {
     // }
     const data = {
       data:{
-        reg_Num : "963852741",
-        Name : "Name",
-        Email : "Email@email.com",
-        Phone : "111111111111",
-        Address : "Governorate",
-        Password : "Password",
-        Type_of_Spec : "Anesthesiology",
-        LicenseNumber : "1111111111111111",
-        NationalID : "111111111",
+        reg_Num : "300082743",
+        Name : Name,
+        Email : Email,
+        phone : Phone,
+        Address : Governorate,
+        Password : Password,
+        Type_of_Spec : Typeofspecializtion,
+        LicenseNumber : LicenseNumber,
+        NationalID : NationalID,
+        // LicenseImg: UploadLicense
       }
     }
     PostDoctor.addDoctor(data).then((res) => {

@@ -6,6 +6,7 @@ import React, { useEffect, useState } from 'react'
 
 console.log(params);
   const [doctorByRegNum, setDoctorByRegNum] = useState([]);
+
   useEffect(() => {
     getDoctorByRegNum_();
   }, [params?.doctorRegNum])

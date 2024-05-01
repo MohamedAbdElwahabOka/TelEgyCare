@@ -1,43 +1,8 @@
 import React from 'react';
 import Image from 'next/image';
-import Doctor2 from './img/Doctor2.png';
-import Doctor1 from './img/Doctor1.png';
-import Doctor3 from './img/Doctor3.png';
-import Star from './img/star.png';
 import logo from './img/logo.png';
 import logo2 from './img/LOGO2.png';
 import Link from 'next/link';
-
-// const consultants = [
-//   {
-//     name: "Dr. Khaled Hossam",
-//     specialty: "Cardiology Specialist",
-//     rating: 5,
-//     image: Doctor2,
-//     id:0
-//   },
-//   {
-//     name: "Dr. Eyad Elmogy",
-//     specialty: "Dermatology Specialist",
-//     rating: 4,
-//     image: Doctor1,
-//     id:1
-//   },
-//   {
-//     name: "Dr. Ehab Khaled",
-//     specialty: "Gastroenterology Specialist",
-//     rating: 2,
-//     image: Doctor3,
-//     id:2
-//   },
-//   {
-//     name: "Dr. Eyad Mohamed",
-//     specialty: "Dermatology Specialist",
-//     rating: 4,
-//     image: Doctor2,
-//     id:3
-//   },
-// ];
 
 function FindConsultant({data,consultant}) {
   return (

@@ -22,6 +22,8 @@ import React, { useEffect, useState } from 'react'
     })
   }
 
+  console.log(params)
+
   useEffect(() => {
     getDoctorByReNum_();
   }, [params?.doctorReNum])
@@ -41,30 +43,3 @@ import React, { useEffect, useState } from 'react'
    </>
   ) 
 }export default page
-
-// 'use client'
-// consultats={Consultants}
-
-// import FindConsultant from "../_components/FindConsultant";
-// import React, { useEffect, useState } from 'react'
-// import ConsultantsApis from "../_utils/ConsultantsApis";
-
-// export default function FindAConsultants() {
-
-  // const [Consultants, setConsultant] = useState([]);
-  // useEffect(() => {
-  //   getConsultant_();
-  // }, [])
-
-  // const getConsultant_ = () => {
-  //   ConsultantsApis.getConsultant().then(res => {
-  //     console.log(res.data.data);
-  //     setConsultant(res.data.data);
-
-  //   })
-  // }
-
-//   return (
-//    <><FindConsultant data={Consultants}/></>  
-//   );
-// }

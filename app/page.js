@@ -16,7 +16,6 @@ export default function Home() {
 
   const getDoctor_ = () => {
     DoctorApis.getDoctor().then(res => {
-      console.log(res.data.data);
       setDoctor(res.data.data);
 
     })

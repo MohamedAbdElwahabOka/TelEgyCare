@@ -121,28 +121,9 @@ const Signin = ({data}) => {
   const [ErrorMessage, setErrorMessage] = useState('');
 
   const router = useRouter();
-
-  // const handleSubmit = (e) => {
-  //   e.preventDefault();
-  // };
-
-  // const handleSubmit = (e) => {
-  //   e.preventDefault();
-  //   const user = data.find(
-  //     (item) =>
-  //       item.attributes.reg_Num == registrationNumber &&
-  //       item.attributes.Password == password
-  //   );
-  //   if (!user) {
-  //     setErrorMessage('Invalid registration number or password.');
-  //   } else {
-  //     router.push(`/Homepage`);
-
-
-  //   }
-  // };
-
+  console.log(data)
   const handleSubmit = (e) => {
+   
     e.preventDefault();
     const user = data.find(
       (item) =>

@@ -2,10 +2,11 @@
 
 import React, { useState } from 'react';
 import Link from 'next/link';
-import PostDoctor from '../_utils/PostDoctor'
-// import { data } from 'autoprefixer';
+import PostDoctor from '../../_utils/DoctorApis'
+import Swal from 'sweetalert2'
+import bcrypt from 'bcryptjs';
 
-const SignUp = () => {
+const SignUp = ({doctors}) => {
   const [Name, setName] = useState('');
   const [Password, setPassword] = useState('');
   // const [VerifyPassword, setVerifyPassword] = useState('');
@@ -21,41 +22,120 @@ const SignUp = () => {
   // const [UploadLicense, setUploadLicense] = useState('');
   // const [Profileimage, setProfileimage] = useState('');
 
-  const handleSubmit = (e) => {
-    e.preventDefault();
 
-    // const data = {
-    //   data:{
-    //     reg_Num : "963852741",
-    //     Name : Name,
-    //     Email : Email,
-    //     Phone : phone,
-    //     Address : Governorate,
-    //     Password : Password,
-    //     Type_of_Spec : Typeofspecializtion,
-    //     LicenseNumber : LicenseNumber,
-    //     NationalID : NationalID,
-    //   }
-    // }
+  const generateRandomNumber = () => {
+    let randomNumber = Math.floor(Math.random() * 900000 + 100000); // generate a random 6-digit number
+    return randomNumber;
+  }
+  // const reg = 111111;
+  const reg = generateRandomNumber();
+  // console.log(reg)
+ 
+  const user = doctors.find(
+    (item) =>{
+      const DNumber = item?.attributes?.reg_Num;
+      const number = DNumber.substring(1);
+      return number == reg;    
+    }  
+  );
+  var valid_Reg_num  = 0
+  if(!user){
+    valid_Reg_num = reg
+    console.log('valid Reg num ')
+  }else{
+   console.log('not valid reg num')
+  }
+
+  console.log(valid_Reg_num)
+
+
+ // Hash the password
+
+ const hashPassword = async (password) => {
+  const salt = bcrypt.genSaltSync(10); // Generate a salt
+  const hashedPassword = await bcrypt.hash(password, salt); // Hash the password with the salt
+  return hashedPassword;
+};
+ 
+
+// const plaintextPassword = "D653225";
+// bcrypt.compare(plaintextPassword, hashedPassword).then(isMatch => {
+//   if (isMatch) {
+//     console.log('The passwords match.');
+//   } else {
+//     console.log('The passwords do not match.');
+//   }
+// });
+const sendEmail = async ()=>{
+  const res = await fetch('api/send-email',{
+    method: 'POST'  
+  })
+}
+
+  
+
+  const handleSubmit = async  (e) => {
+    e.preventDefault();
+      
+    // Hash the password
+     const hashedPassword = await hashPassword(`D${valid_Reg_num}`);
+     
+    //  console.log(hashedPassword)
+
     const data = {
       data:{
-        reg_Num : "300082743",
+        reg_Num : `D${valid_Reg_num}`,
         Name : Name,
         Email : Email,
         phone : Phone,
         Address : Governorate,
-        Password : Password,
+        // Password : Password,
+        Password : hashedPassword,
         Type_of_Spec : Typeofspecializtion,
         LicenseNumber : LicenseNumber,
         NationalID : NationalID,
         // LicenseImg: UploadLicense
       }
     }
+    let timerInterval;
+      Swal.fire({
+        title: "Register now",
+        html: "I will close in <b></b> milliseconds.",
+        timer: 1000,
+        timerProgressBar: true,
+        didOpen: () => {
+          Swal.showLoading();
+          const timer = Swal.getPopup().querySelector("b");
+          timerInterval = setInterval(() => {
+            timer.textContent = `${Swal.getTimerLeft()}`;
+          }, 100);
+        },
+        willClose: () => {
+          clearInterval(timerInterval);
+        }
+      }).then((result) => {
+        /* Read more about handling dismissals below */
+        if (result.dismiss === Swal.DismissReason.timer) {
+         
+        }
+      });
     PostDoctor.addDoctor(data).then((res) => {
-      console.log('done');
-      console.log(res);
+     console.log("🚀 ~ PostDoctor.addDoctor ~ res:", res)
+     
+      Swal.fire({
+        title: "Congratulations",
+        text: "Your account has been registered successfully",
+        icon: "success"
+      });
+      sendEmail();
     }).catch((error) => {
-      console.log(error);
+      console.log("🚀 ~ PostDoctor.addDoctor ~ error:", error)
+
+      Swal.fire({
+        icon: "error",
+        title: "Oops...",
+        text: "There was an error recording, try again"
+      });
     });
 
   };
@@ -81,20 +161,7 @@ const SignUp = () => {
         </div>
       </div>
 
-      {/* <div>
-        <label className="text-gray-700">Profile Image:</label>
-        <div className="mt-1">
-          <input
-            id="Profileimage"
-            name="Profileimage"
-            type="file"
-            placeholder="Profile image"
-            className="appearance-none text-gray-700 block w-full px-5 py-3 border border-gray-300 rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
-            value={Profileimage}
-            onChange={(e) => setProfileimage(e.target.value)}
-          />
-        </div>
-      </div> */}
+   
 
       <div>
         <label className="text-gray-700">Phone Number:</label>
@@ -127,39 +194,7 @@ const SignUp = () => {
           />
         </div>
       </div>
-
-      {/* <div>
-        <label className="text-gray-700">Verify Password:</label>
-        <div className="mt-1">
-          <input
-            id="VerifyPassword"
-            name="VerifyPassword"
-            type="Password"
-            placeholder="Verify Password"
-            required
-            className="appearance-none text-gray-700 block w-full px-5 py-3 border border-gray-300 rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
-            value={VerifyPassword}
-            onChange={(e) => setVerifyPassword(e.target.value)}
-          />
-        </div>
-      </div> */}
-
-      {/* <div>
-        <label className="text-gray-700">Address:</label>
-        <div className="mt-1">
-          <input
-            id="Address"
-            name="Address"
-            type="text"
-            placeholder="Address"
-            required
-            className="appearance-none text-gray-700 block w-full px-5 py-3 border border-gray-300 rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
-            value={Adress}
-            onChange={(e) => setAdress(e.target.value)}
-          />
-        </div>
-      </div> */}
-
+   
       <div>
         <label className="text-gray-700">Email:</label>
         <div className="mt-1">
@@ -193,37 +228,7 @@ const SignUp = () => {
         </div>
       </div>
 
-      {/* <div>
-        <label className="text-gray-700">National ID Image:</label>
-        <div className="mt-1">
-          <input
-            id="National"
-            name="National"
-            type="file"
-            placeholder="National"
-            className="appearance-none text-gray-700 block w-full px-5 py-3 border border-gray-300 rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
-            value={National}
-            onChange={(e) => setNational(e.target.value)}
-          />
-        </div>
-      </div> */}
-
-      {/* <div>
-        <label className="text-gray-700">Expiry Date:</label>
-        <div className="mt-1">
-          <input
-            id="Expiry Date"
-            name="Expiry Date"
-            type="date"
-            placeholder="Expiry Date"
-            required
-            className="appearance-none text-gray-700 block w-full px-5 py-3 border border-gray-300 rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
-            value={ExpiryDate}
-            onChange={(e) => setExpiryDate(e.target.value)}
-          />
-        </div>
-      </div> */}
-
+   
       <div>
         <label className="text-gray-700">License Number:</label>
         <div className="mt-1">
@@ -240,20 +245,7 @@ const SignUp = () => {
         </div>
       </div>
 
-      {/* <div>
-        <label className="text-gray-700">License Image:</label>
-        <div className="mt-1">
-          <input
-            id="Upload License"
-            name="Upload License"
-            type="file"
-            placeholder="Upload License"
-            className="appearance-none text-gray-700 block w-full px-5 py-3 border border-gray-300 rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
-            value={UploadLicense}
-            onChange={(e) => setUploadLicense(e.target.value)}
-          />
-        </div>
-      </div> */}
+
 
 <div>
   <label className="text-gray-700">Medical Specialty:</label>
@@ -327,15 +319,7 @@ const SignUp = () => {
         >
           Sign up
         </button>
-        {/* <button
-  onClick={handleSubmit}
-  type="submit"
-  className="w-full flex justify-center py-3 px-5 border border-transparent rounded-md shadow-sm text-xl font-medium text-white bg-blue-700 hover:bg-blue-500 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
->
-  Sign up
-        </button> */}
       </div>
-
       <div>
         <p className="flex justify-center px-5 text-black">Already have an account? <Link href="/" className='text-blue-500'>Login</Link></p>
       </div>

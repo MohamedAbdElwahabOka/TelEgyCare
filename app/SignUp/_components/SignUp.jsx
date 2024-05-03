@@ -66,11 +66,11 @@ const SignUp = ({doctors}) => {
 //     console.log('The passwords do not match.');
 //   }
 // });
-const sendEmail = async ()=>{
-  const res = await fetch('api/send-email',{
-    method: 'POST'  
-  })
-}
+// const sendEmail = async ()=>{
+//   const res = await fetch('api/send-email',{
+//     method: 'POST'  
+//   })
+// }
 
   
 
@@ -127,7 +127,7 @@ const sendEmail = async ()=>{
         text: "Your account has been registered successfully",
         icon: "success"
       });
-      sendEmail();
+      // sendEmail();
     }).catch((error) => {
       console.log("🚀 ~ PostDoctor.addDoctor ~ error:", error)
 

@@ -66,7 +66,11 @@ const SignUp = ({doctors}) => {
 //     console.log('The passwords do not match.');
 //   }
 // });
-    
+const sendEmail = async ()=>{
+  const res = await fetch('api/send-email',{
+    method: 'POST'  
+  })
+}
 
   
 
@@ -117,12 +121,13 @@ const SignUp = ({doctors}) => {
       });
     PostDoctor.addDoctor(data).then((res) => {
      console.log("🚀 ~ PostDoctor.addDoctor ~ res:", res)
+     
       Swal.fire({
         title: "Congratulations",
         text: "Your account has been registered successfully",
         icon: "success"
       });
-
+      sendEmail();
     }).catch((error) => {
       console.log("🚀 ~ PostDoctor.addDoctor ~ error:", error)
 

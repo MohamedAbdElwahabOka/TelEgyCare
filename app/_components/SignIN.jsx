@@ -1,6 +1,6 @@
 
-
 "use client"
+// "use server"
 
 import React, { useState } from 'react';
 import Image from 'next/image';
@@ -9,8 +9,21 @@ import logo from './img/logo.png';
 import { useRouter } from 'next/navigation';
 import Swal from 'sweetalert2'
 import bcrypt from 'bcryptjs';
+// import sendMail from './send-email'
 
 const Signin = ({data}) => {
+
+
+  // const send = async () => {
+  //   "use server";
+  //   await sendMail({
+  //     to: "sakuradev23@gmail.com",
+  //     name: "Vahid",
+  //     subject: "Test Mail",
+  //     body: compileWelcomeTemplate("Vahid", "youtube.com/@sakuradev"),
+  //   });
+  // };
+  
   const [registrationNumber, setRegistrationNumber] = useState('');
   const [password, setPassword] = useState('');
   const [ErrorMessage, setErrorMessage] = useState('');
@@ -105,6 +118,10 @@ const Signin = ({data}) => {
           
         </form>
       </div>
+
+      {/* <button>test</button> */}
+           
+             
     </div>
   );
 };

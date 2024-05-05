@@ -1,7 +1,7 @@
 import React from 'react';
 import Image from 'next/image';
-import logo from './img/logo.png';
-import logo2 from './img/LOGO2.png';
+import logo from '../../_components/img/logo.png';
+import logo2 from '../../_components/img/LOGO2.png';
 import Link from 'next/link';
 
 function FindConsultant({data,consultant}) {
@@ -59,7 +59,7 @@ function FindConsultant({data,consultant}) {
                 </div>
               </div>
 
-              <Link href='ConsultantChats' className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-1 px-2 rounded mt-auto ml-auto">Talk</Link>
+              <Link href='/ConsultantChats' className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-1 px-2 rounded mt-auto ml-auto">Talk</Link>
             </div>
           ))}
         </section>

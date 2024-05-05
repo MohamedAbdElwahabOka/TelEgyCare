@@ -2,13 +2,17 @@
 
 import React from 'react';
 import Image from "next/image";
-import logo from './img/logo.png';
+import logo from '../../_components/img/logo.png';
 // import Link from 'next/link';
 
 
 
 
 function TestResults({data,patients}) {
+console.log("🚀 ~ TestResults ~ patients:", patients)
+console.log("🚀 ~ TestResults ~ data:", data)
+
+  
   return (
     <div>
         {data.map((item, index) => (

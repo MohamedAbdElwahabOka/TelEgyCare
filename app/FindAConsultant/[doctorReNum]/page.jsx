@@ -1,7 +1,8 @@
 'use client'
-import FindConsultant from '../../_components/FindConsultant';
+import FindConsultant from '../_components/FindConsultant';
 import ConsultantsApis from '../../_utils/ConsultantsApis';
-import React, { useEffect, useState } from 'react'
+import React, { useEffect, useState,Suspense } from 'react'
+import Loading from '../../Loading';
 
  function page({params}) {
   // {params}
@@ -39,7 +40,12 @@ import React, { useEffect, useState } from 'react'
 
   return (
    <>
-   <FindConsultant data={doctorByReNum} consultant={Consultants}  />
+
+      <Suspense fallback={<p className='text-xl font-bold text-gray-500 mb-4 px-4'>Loading feed...</p>}>
+      <FindConsultant data={doctorByReNum} consultant={Consultants}  />
+      </Suspense>
+
+   
    </>
   ) 
 }export default page

@@ -1,6 +1,6 @@
 'use client'
 
-import TestResults from '../../_components/TestResults';
+import TestResults from '../_components/TestResults';
 import TestResultsApis from '../../_utils/TestResultsApis';
 import DoctorApis from "../../_utils/DoctorApis";
 import React, { useEffect, useState } from 'react'
@@ -38,7 +38,8 @@ import React, { useEffect, useState } from 'react'
   // data={doctorByReNum}
   // patient={patient}
   return (
-    <><TestResults data={doctorByRegNum} patient={patient}/>
+    <>
+    <TestResults data={doctorByRegNum} patient={patient}/>
     </>
   ) 
 }export default page

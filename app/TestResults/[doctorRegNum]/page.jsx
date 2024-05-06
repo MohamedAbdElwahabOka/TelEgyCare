@@ -22,12 +22,12 @@ import React, { useEffect, useState } from 'react'
     })
   }
 
-  console.log(params)
+  console.log(params?.doctorRegNum)
 
   useEffect(() => {
     getDoctorByRegNum_();
   }, [params?.doctorRegNum])
-  // params?.doctorRegNum
+
   const getDoctorByRegNum_ = () => {
     DoctorApis.getDoctorByRegNum(params?.doctorRegNum).then(res => {
       console.log(res.data.data);
@@ -35,11 +35,10 @@ import React, { useEffect, useState } from 'react'
 
     })
   }
-  // data={doctorByReNum}
-  // patient={patient}
+
   return (
     <>
-    <TestResults data={doctorByRegNum} patient={patient}/>
+    <TestResults/>
     </>
   ) 
 }export default page

@@ -1,6 +1,6 @@
 "use client"
 import Image from 'next/image';
-import doctor from './img/Character1.png'
+import doctor from '../../_components/img/Doctor1.png'
 import React, { useState } from 'react';
 
 // const patientDetails = [

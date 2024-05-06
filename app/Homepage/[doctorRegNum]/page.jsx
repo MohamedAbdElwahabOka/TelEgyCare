@@ -1,5 +1,5 @@
 'use client'
-import Home_page from '../../_components/Home_page'
+import Home_page from '../_components/Home_page'
 import DoctorApis from "../../_utils/DoctorApis";
 import React, { useEffect, useState } from 'react'
  function page({params}) {

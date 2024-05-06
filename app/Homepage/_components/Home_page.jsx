@@ -10,9 +10,16 @@ import chat from '/public/chat.png'
 import newcheckup from '/public/new checkup.png'
 import list from '/public/list-icon-png-19.jpg'
 import { useRouter } from 'next/navigation';
+import React, { useState, useEffect } from 'react';
 
 function HomePage({ data }) {
-  // console.log(data[0].attributes.Name)
+ 
+
+ 
+
+ 
+
+
   console.log(data)
   const router = useRouter();
 
@@ -29,8 +36,8 @@ function HomePage({ data }) {
 
   return (
     <div>
-      {data.map((item, index) => (
-        <header key={index} className="bg-gray-100 text-blue-500 py-5">
+      
+        <header className="bg-gray-100 text-blue-500 py-5">
           <div className="container mx-auto flex justify-between items-center">
             <div>
               <Image src={logo} width={60} height={60} className="text-blue-500" />
@@ -39,7 +46,10 @@ function HomePage({ data }) {
             <nav>
               <ul className="flex space-x-6 md:space-x-8">
                 <li>
-                  <h4 className="nav-link"> Hello ,Dr.{item?.attributes?.Name}</h4>
+                {data.map((item, index) => (
+                  <h4 key={index}  className="nav-link"> Hello ,Dr.{item?.attributes?.Name}</h4>
+                ))}
+
                 </li>
                 <li>
                   <Image src={logo} width={40} height={40} className="text-blue-500 nav-link" />
@@ -51,7 +61,7 @@ function HomePage({ data }) {
             The Best Quality <br />
             Service You Can Get
           </h3>
-        </header>))}
+        </header>
 
       <section className="bg-white py-12">
         <div className="container mx-auto flex justify-between items-center">
@@ -97,7 +107,7 @@ function HomePage({ data }) {
               </Link>
               <Link
                 className="flex flex-col items-center justify-center space-y-4 bg-blue-200 shadow-lg rounded-xl p-6 hover:bg-gray-50  transition-colors"
-                href="#"
+                href="/ConsultantChats"
               >
                 <Image
                   alt="Hospital"
@@ -110,8 +120,8 @@ function HomePage({ data }) {
               </Link>
               <Link
                 className="flex flex-col items-center justify-center space-y-4 bg-blue-400  shadow-lg rounded-xl p-6 hover:bg-gray-50  transition-colors"
-                // href='/TableCheckUP/[$id]' as={`/TableCheckUP/${item?.attributes?.reg_Num}`}
-                href='/NewCheckUP'
+                href='/TableCheckUP/[$id]' as={`/TableCheckUP/${item?.attributes?.reg_Num}`}
+                // href='/NewCheckUP'
               >
                 <Image
                   alt="Hospital"

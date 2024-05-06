@@ -1,21 +1,18 @@
 "use client"
 
 import React from 'react';
-import Image from "next/image";
-import logo from '../../_components/img/logo.png';
-// import Link from 'next/link';
 
 
 
 
-function TestResults({data,patients}) {
-console.log("🚀 ~ TestResults ~ patients:", patients)
-console.log("🚀 ~ TestResults ~ data:", data)
+
+function TestResults() {
+
 
   
   return (
     <div>
-        {data.map((item, index) => (
+        {/* {data.map((item, index) => (
         <header key={index} className="bg-gray-100 text-blue-500 py-5">
           <div className="container mx-auto flex justify-between items-center">
             <div>
@@ -36,10 +33,10 @@ console.log("🚀 ~ TestResults ~ data:", data)
           <h3 className="text-2xl md:text-4xl lg:text-5xl font-bold p-20">
           Test Results
           </h3>
-        </header>))}
+        </header>))} */}
 
-      <section className="grid md:grid-cols-1 gap-4 px-8 w-full bg-gray-100">
-        {/* {patients.map((item,id) => (
+      {/* <section className="grid md:grid-cols-1 gap-4 px-8 w-full bg-gray-100">
+        {patients.map((item,id) => (
           <div key={id}>
             <div className="bg-white p-2 rounded shadow-md flex flex-col w-full">
               <div className="flex items-center mb-4">
@@ -58,9 +55,12 @@ console.log("🚀 ~ TestResults ~ data:", data)
               <button className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-1 px-2 rounded mt-auto ml-auto">Download</button>
             </div>
           </div>
-        ))} */}
+        ))}
 
-      </section>
+      </section> */}
+
+
+     <h1 className='text-center'> بسم الله </h1>
     </div>
   );
 }

@@ -6,20 +6,25 @@ import React, { useEffect, useState } from 'react'
 
 function Checkup({params}) {
 
-  const [doctorByID, setDoctorByID] = useState([]);
-  useEffect(() => {
-    getDoctorByID_();
-  }, [params?.doctorReNum])
-  // params?.doctorRegNum
-  const getDoctorByID_ = () => {
-    PatientApis.getMedicalRecordsByDoctorId(params?.doctorID).then(res => {
-      console.log(res.data.data);
-      setDoctorByID(res.data.data);
+  // const [doctorByID, setDoctorByID] = useState([]);
+  // useEffect(() => {
+  //   getDoctorByID_();
+  // }, [params?.doctorReNum])
+  // // params?.doctorRegNum
+  // const getDoctorByID_ = () => {
+  //   PatientApis.getMedicalRecordsByDoctorId(params?.doctorID).then(res => {
+  //     console.log(res.data.data);
+  //     setDoctorByID(res.data.data);
 
-    })
-  }
+  //   })
+  // }
   return (
-    <><NewCheckup data={doctorByID} /></>
+    <>
+    
+    {/* <NewCheckup data={doctorByID} /> */}
+    {params?.DoctorRegNum}
+    
+    </>
   )
 }
 // patient={Patients}

@@ -33,15 +33,7 @@ function PatientId({params}) {
 
     <div>
       
-      {patientDetailsFromAppointmentsByDoctorReg_Num.map((patient, index) => (
-        <div key={index}>
-          <h2>{patient?.attributes.patient?.data?.attributes?.Name}</h2>
-          <h2>{patient?.attributes.date}</h2>time
-          <h2>{patient?.attributes.time}</h2>
-          {/* {console.log(patient?.attributes.patient?.data?.attributes?.Name)} */}
-          {/* Add more fields as necessary */}
-        </div>
-      ))}
+     
 
 
     </div>

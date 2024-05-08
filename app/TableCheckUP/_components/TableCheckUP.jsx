@@ -5,9 +5,14 @@ import Link from 'next/link';
 
 function Table({patient}) {
 
-  // console.log(patient)
+  const calculateAge = (birthDateString) => {
+    const birthDate = new Date(birthDateString);
+    const today = new Date();
+    const age = today.getFullYear() - birthDate.getFullYear();
+    const m = today.getMonth() - birthDate.getMonth();
+    return m < 0 || (m === 0 && today.getDate() < birthDate.getDate()) ? age - 1 : age;
+  }
 
-  
   const [searchTerm, setSearchTerm] = useState('');
   
     const filteredData = patient.filter(item => 
@@ -72,8 +77,11 @@ function Table({patient}) {
                 </td>
                 <td className=" px-4 py-2">
                   <Link href={`/NewCheckUP/${item?.attributes?.patient?.data?.id}`}>
-                     {item?.attributes?.patient?.data?.attributes?.Birth_Date}
-                    
+                     {/* {item?.attributes?.patient?.data?.attributes?.Birth_Date} */}
+                     {calculateAge(item?.attributes?.patient?.data?.attributes?.Birth_Date)}
+ 
+                     
+
                   </Link>
                 </td>
                 <td className=" px-4 py-2">

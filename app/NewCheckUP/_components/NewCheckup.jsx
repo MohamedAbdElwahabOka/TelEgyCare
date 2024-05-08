@@ -1,36 +1,60 @@
 "use client"
 import Image from 'next/image';
 import doctor from '../../_components/img/Doctor1.png'
-import React, { useState } from 'react';
-
-// const patientDetails = [
-//     { label: 'Name', value: 'Ahmed Hosam Ahmed' },
-//     { label: 'ID', value: '#302088823' },
-//     { label: 'Blood Type', value: 'B+' },
-//     { label: 'Age', value: '25 yrs' },
-//     { label: 'Gender', value: 'Male' },
-// ];
-
-const initialState = {
-    height: '',
-    weight: '',
-    BMI: '',
-    bloodPressure: '',
-    pulse: '',
-};
+import React, { useEffect, useState } from 'react'
+import PatientApis from '../../_utils/PatientApis'
 
 
-export default function Component({data}) {
 
-    console.log(data)
-    const [patientSpecs, setPatientSpecs] = useState(initialState);
+export default function Component({PatientId}) {
 
-    const handleInputChange = (event) => {
-        setPatientSpecs({
-            ...patientSpecs,
-            [event.target.name]: event.target.value,
-        });
+
+ /*
+ ! calculateAge Start 
+ */
+const calculateAge = (birthDateString) => {
+    const birthDate = new Date(birthDateString);
+    const today = new Date();
+    const age = today.getFullYear() - birthDate.getFullYear();
+    const m = today.getMonth() - birthDate.getMonth();
+    return m < 0 || (m === 0 && today.getDate() < birthDate.getDate()) ? age - 1 : age;
+    }
+
+       /*
+ ! calculateAge End 
+ */
+/*
+!__________________________________________________________________________________________________
+*/
+ /*
+ ! patientData Start 
+ */ 
+ const [patientData, setPatientData] = useState([]);
+  useEffect(() => {
+    getPatientDetailsFromPatientsById_();
+  }, [])
+ 
+  const getPatientDetailsFromPatientsById_ = () => {
+    PatientApis.getPatientDetailsFromPatientsById(PatientId).then(res => {
+      console.log(res.data.data);
+      setPatientData(res.data.data);
+
+    })
+  }
+   /*
+ ! patientData End
+ */
+/*
+!__________________________________________________________________________________________________
+*/
+    
+
+    const handleInputChange = () => {
+       
     };
+
+
+    
 
     return (
         <div className="bg-gray-100">
@@ -46,32 +70,20 @@ export default function Component({data}) {
                                     </div>
                                 </div>
                                 <div className="grid grid-cols-1 gap-4 mt-4 text-black">
-                                    {data.map((item, index) => (
-                                        <div key={index}>
-                                            <div className="text-sm text-blue-500 font-bold">{item?.attributes?.Name}</div>
-                                            <div>{item?.attributes?.reg_Num}</div>
-                                        </div>
-                                    ))}
-                                </div>
-                                {/* {console.log(item?.id)} */}
-                            </div>
 
-                            {/* <div className="bg-white p-4 rounded-lg shadow-md">
-                                <div className="font-medium flex items-center justify-between">
-                                    <div className="flex items-center gap-2 text-black">
-                                        <UserIcon className="w-5 h-5" />
-                                        <span>Patient Specifications</span>
-                                    </div>
+                                    
+                                <h1 className="text-sm text-blue-500 font-bold">{patientData?.attributes?.reg_Num}</h1>
+                                <h1 className="text-sm text-blue-500 font-bold">{patientData?.attributes?.Name}</h1>
+                                <h1 className="text-sm text-blue-500 font-bold">{patientData?.attributes?.phone}</h1>
+                                <h1 className="text-sm text-blue-500 font-bold">{patientData?.attributes?.Name}</h1>
+                                <h1 className="text-sm text-blue-500 font-bold">{patientData?.attributes?.Gender}</h1>
+                                <h1 className="text-sm text-blue-500 font-bold">{calculateAge(patientData?.attributes?.Birth_Date)}</h1>
+                                <h1 className="text-sm text-blue-500 font-bold">{patientData?.attributes?.Blood_Type}</h1>
+                                <h1 className="text-sm text-blue-500 font-bold">{patientData?.attributes?.Governorate}</h1>
+                                
+                                
                                 </div>
-                                <div className="grid grid-cols-2 gap-4 mt-4 text-black">
-                                    {patientSpecs.map((spec, index) => (
-                                        <div key={index}>
-                                            <div className="text-sm text-blue-500 font-bold">{spec.label}</div>
-                                            <div>{spec.value}</div>
-                                        </div>
-                                    ))}
-                                </div>
-                            </div> */}
+                            </div>
                             <div className="bg-white p-4 rounded-lg shadow-md">
                                 <div className="font-medium flex items-center justify-between">
                                     <div className="flex items-center gap-2 text-black">
@@ -87,7 +99,7 @@ export default function Component({data}) {
                                             // placeholder="Enter height (cm)"
                                             className="text-black  w-full border border-gray-400 rounded-md bg-gray-100 px-2 py-1"
                                             name="height"
-                                            value={patientSpecs.height}
+                                            // value={patientSpecs.height}
                                             onChange={handleInputChange}
                                             required
                                         />
@@ -99,7 +111,7 @@ export default function Component({data}) {
                                             // placeholder="Enter weight (kg)"
                                             className="text-black  w-full border border-gray-400 rounded-md bg-gray-100 px-2 py-1"
                                             name="weight"
-                                            value={patientSpecs.weight}
+                                            // value={patientSpecs.weight}
                                             onChange={handleInputChange}
                                             required
                                         />
@@ -111,7 +123,7 @@ export default function Component({data}) {
                                             // placeholder="Enter BMI"
                                             className="text-black  w-full border border-gray-400 rounded-md bg-gray-100 px-2 py-1"
                                             name="BMI"
-                                            value={patientSpecs.BMI}
+                                            // value={patientSpecs.BMI}
                                             onChange={handleInputChange}
                                             required
                                         />
@@ -129,7 +141,7 @@ export default function Component({data}) {
                                             // placeholder="Enter blood pressure (e.g., 120/80 mmHg)"
                                             className="text-black  w-full border border-gray-400 rounded-md bg-gray-100 px-2 py-1"
                                             name="bloodPressure"
-                                            value={patientSpecs.bloodPressure}
+                                            // value={patientSpecs.bloodPressure}
                                             onChange={handleInputChange}
                                             required
                                         />
@@ -142,7 +154,7 @@ export default function Component({data}) {
                                             // w-full border border-gray-400 rounded-md bg-gray-100 px-2 py-1 
                                             className="text-black  w-full border border-gray-400 rounded-md bg-gray-100 px-2 py-1"
                                             name="pulse"
-                                            value={patientSpecs.pulse}
+                                            // value={patientSpecs.pulse}
                                             onChange={handleInputChange}
                                             required
                                         />

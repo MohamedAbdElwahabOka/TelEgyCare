@@ -3,12 +3,13 @@ import Image from 'next/image';
 import doctor from '../../_components/img/Doctor1.png'
 import React, { useEffect, useState } from 'react'
 import PatientApis from '../../_utils/PatientApis'
-
+import Swal from 'sweetalert2'
+import medicalrecordsAPI from '../../_utils/medicalrecordsAPI'
 
 
 export default function Component({PatientId}) {
 
-
+ console.log(PatientId)
  /*
  ! calculateAge Start 
  */
@@ -47,11 +48,42 @@ const calculateAge = (birthDateString) => {
 /*
 !__________________________________________________________________________________________________
 */
-    
 
-    const handleInputChange = () => {
-       
-    };
+
+
+
+
+    const handleInputChange = (e) => {
+        e.preventDefault();
+        console.log(PatientId)
+       let Id = parseInt(PatientId);
+       console.log(Id)
+        const data = {
+            data:{
+                Medical_RecordId:"MTEST",
+                patient:Id
+            }
+    }
+
+    medicalrecordsAPI.AddNewMedicalRecordForExistingPatient(data).then((res) => {
+        // console.log("🚀 ~ PostDoctor.addDoctor ~ res:", res)
+        
+         Swal.fire({
+           title: "Congratulations",
+           text: "Added successfully",
+           icon: "success"
+         });
+         // sendEmail();
+       }).catch((error) => {
+         console.log("🚀 ~ PostDoctor.addDoctor ~ error:", error)
+   
+         Swal.fire({
+           icon: "error",
+           title: "Oops...",
+           text: "There was an error recording, try again"
+         });
+       });
+}
 
 
     
@@ -254,6 +286,7 @@ const calculateAge = (birthDateString) => {
 
                             <div class="flex justify-center mt-6">
                                 <button
+                                    onClick={(e)=> handleInputChange(e)}
                                     type="submit"
                                     class="flex justify-center py-3 px-8 border border-transparent rounded-md shadow-sm text-xl font-medium text-white bg-blue-700 hover:bg-blue-500 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 mb-4"
                                 >

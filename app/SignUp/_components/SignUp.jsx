@@ -2,7 +2,7 @@
 
 import React, { useState } from 'react';
 import Link from 'next/link';
-import PostDoctor from '../../_utils/DoctorApis'
+import DoctorApis from '../../_utils/DoctorApis'
 import Swal from 'sweetalert2'
 import bcrypt from 'bcryptjs';
 
@@ -119,7 +119,7 @@ const SignUp = ({doctors}) => {
          
         }
       });
-    PostDoctor.addDoctor(data).then((res) => {
+      DoctorApis.addDoctor(data).then((res) => {
      console.log("🚀 ~ PostDoctor.addDoctor ~ res:", res)
      
       Swal.fire({

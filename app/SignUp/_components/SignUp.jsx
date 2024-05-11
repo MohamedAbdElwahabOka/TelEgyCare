@@ -94,6 +94,7 @@ const SignUp = ({doctors}) => {
         Type_of_Spec : Typeofspecializtion,
         LicenseNumber : LicenseNumber,
         NationalID : NationalID,
+        publishedAt :null
         // LicenseImg: UploadLicense
       }
     }
@@ -101,7 +102,7 @@ const SignUp = ({doctors}) => {
       Swal.fire({
         title: "Register now",
         html: "I will close in <b></b> milliseconds.",
-        timer: 1000,
+        timer: 4000,
         timerProgressBar: true,
         didOpen: () => {
           Swal.showLoading();

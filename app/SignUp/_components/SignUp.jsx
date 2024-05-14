@@ -27,9 +27,9 @@ const SignUp = ({doctors}) => {
     let randomNumber = Math.floor(Math.random() * 900000 + 100000); // generate a random 6-digit number
     return randomNumber;
   }
-  // const reg = 111111;
+
   const reg = generateRandomNumber();
-  // console.log(reg)
+
  
   const user = doctors.find(
     (item) =>{
@@ -66,21 +66,25 @@ const SignUp = ({doctors}) => {
 //     console.log('The passwords do not match.');
 //   }
 // });
-// const sendEmail = async ()=>{
-//   const res = await fetch('api/send-email',{
-//     method: 'POST'  
-//   })
-// }
+
+const [result ,setResult] = useState('');
+const sendEmail = ()=>{
+  fetch('/api/emails',{
+    method:'POST'
+  })
+  .then(response => response.json())
+  .then(data => {setResult(data)})
+  .catch(error => console.log(error))
+}
 
   
 
   const handleSubmit = async  (e) => {
     e.preventDefault();
       
-    // Hash the password
+
      const hashedPassword = await hashPassword(`D${valid_Reg_num}`);
      
-    //  console.log(hashedPassword)
 
     const data = {
       data:{
@@ -94,6 +98,7 @@ const SignUp = ({doctors}) => {
         Type_of_Spec : Typeofspecializtion,
         LicenseNumber : LicenseNumber,
         NationalID : NationalID,
+        publishedAt :null
         // LicenseImg: UploadLicense
       }
     }
@@ -101,7 +106,7 @@ const SignUp = ({doctors}) => {
       Swal.fire({
         title: "Register now",
         html: "I will close in <b></b> milliseconds.",
-        timer: 1000,
+        timer: 4000,
         timerProgressBar: true,
         didOpen: () => {
           Swal.showLoading();

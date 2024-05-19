@@ -15,9 +15,20 @@ function Table({patient}) {
 
   const [searchTerm, setSearchTerm] = useState('');
   
-    const filteredData = patient.filter(item => 
-      item?.attributes?.patient?.data?.attributes?.reg_Num.includes(searchTerm)
-    );
+  const filteredData = patient.filter(item => {
+    return item?.attributes?.patient?.data?.attributes?.reg_Num.toLowerCase().includes(searchTerm.toLowerCase()) ||
+    item?.attributes?.patient?.data?.attributes?.Name.toLowerCase().includes(searchTerm.toLowerCase()) ||
+    item?.attributes?.patient?.data?.attributes?.Email.toLowerCase().includes(searchTerm.toLowerCase()) ||
+    item?.attributes?.patient?.data?.attributes?.phone.toLowerCase().includes(searchTerm.toLowerCase()) ||
+    item?.attributes?.patient?.data?.attributes?.Governorate.toLowerCase().includes(searchTerm.toLowerCase()) ||
+    calculateAge(item?.attributes?.patient?.data?.attributes?.Birth_Date).toString().includes(searchTerm) ||
+    item?.attributes?.patient?.data?.attributes?.City.toLowerCase().includes(searchTerm.toLowerCase()) ||
+    item?.attributes?.patient?.data?.attributes?.Street.toLowerCase().includes(searchTerm.toLowerCase()) ||
+    item?.attributes?.patient?.data?.attributes?.Gender.toLowerCase().includes(searchTerm.toLowerCase()) ||
+    item?.attributes?.patient?.data?.attributes?.NationalId.toLowerCase().includes(searchTerm.toLowerCase()) ||
+    item?.attributes?.date.toLowerCase().includes(searchTerm.toLowerCase()) ||
+    item?.attributes?.time.toLowerCase().includes(searchTerm.toLowerCase())
+  });
 
   return (
     <div className="p-4 bg-gray-100">
@@ -47,11 +58,12 @@ function Table({patient}) {
             </tr>
         </thead>
         <tbody className='bg-white'>
-            {filteredData.map((item, index) => (
-            
+            {filteredData.length > 0 ?(
+
+            filteredData.map((item, index) => (
               <tr key={index} className={index % 2 === 0 ? 'bg-white' : 'bg-transparent'}>
                 {item?.attributes?.pres_state == 1||2? <>
-
+                  {console.log(item?.attributes?.pres_state)}
                 <td className=" px-4 py-2">
                    <Link href={`/NewCheckUP/${item?.attributes?.patient?.data?.id}`}>
                     {item?.attributes.patient?.data?.attributes?.reg_Num}
@@ -77,11 +89,7 @@ function Table({patient}) {
                 </td>
                 <td className=" px-4 py-2">
                   <Link href={`/NewCheckUP/${item?.attributes?.patient?.data?.id}`}>
-                     {/* {item?.attributes?.patient?.data?.attributes?.Birth_Date} */}
                      {calculateAge(item?.attributes?.patient?.data?.attributes?.Birth_Date)}
- 
-                     
-
                   </Link>
                 </td>
                 <td className=" px-4 py-2">
@@ -89,19 +97,16 @@ function Table({patient}) {
                      {item?.attributes?.patient?.data?.attributes?.Governorate}-
                      {item?.attributes?.patient?.data?.attributes?.City}-
                      {item?.attributes?.patient?.data?.attributes?.Street}
-                    
                   </Link>
                 </td>
                 <td className=" px-4 py-2">
                   <Link href={`/NewCheckUP/${item?.attributes?.patient?.data?.id}`}>
                      {item?.attributes?.patient?.data?.attributes?.Gender}
-                    
                   </Link>
                 </td>
                 <td className=" px-4 py-2">
                   <Link href={`/NewCheckUP/${item?.attributes?.patient?.data?.id}`}>
-                     {item?.attributes?.patient?.data?.attributes?.NationalId}
-                    
+                     {item?.attributes?.patient?.data?.attributes?.NationalId} 
                   </Link>
                 </td>
                 <td className=" px-4 py-2">
@@ -114,7 +119,14 @@ function Table({patient}) {
                 </> : <></>}
                 
               </tr>
-            ))}
+            ))
+          ):(
+            <tr>
+            <td colSpan="10" className="h-20 text-center">
+              <h1 className="text-2xl font-bold">No patients found</h1>
+            </td>
+          </tr>
+          )}
           </tbody>
         </table>
       </div>

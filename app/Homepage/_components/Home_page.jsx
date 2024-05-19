@@ -11,11 +11,21 @@ import newcheckup from '/public/new checkup.png'
 import list from '/public/list-icon-png-19.jpg'
 import { useRouter } from 'next/navigation';
 import React, { useState, useEffect } from 'react';
+import Loading from '../../Loading';
+
 
 function HomePage({ data }) {
  
 
- 
+  const [isLoading, setIsLoading] = useState(true);
+  useEffect(() => {
+    if(data){
+      setIsLoading(false);
+    } else {
+      setIsLoading(true);
+    }
+  }, [data]);
+
 
  
 
@@ -33,7 +43,10 @@ function HomePage({ data }) {
   //     router.push(`/FindAConsultant/${user?.attributes?.reg_Num}`)
   //   } 
   // };
-
+  if (isLoading) {
+    return <Loading />;
+  }
+ 
   return (
     <div>
       
@@ -77,6 +90,7 @@ function HomePage({ data }) {
 
       <main className="py-12 px-8 bg-gray-200">
           <div className="max-w-4xl mx-auto">
+            
           {data.map((item, index) => (
             <div key={index} className="grid grid-cols-3 sm:grid-cols-3 gap-8">
               <Link
@@ -132,7 +146,8 @@ function HomePage({ data }) {
                 />
                 <h3 className="text-xl font-bold text-gray-800 ">New Checkup</h3>
               </Link>
-            </div>))}
+            </div>
+          ))}
 
           </div>
       </main>

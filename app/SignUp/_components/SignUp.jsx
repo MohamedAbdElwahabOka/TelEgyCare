@@ -23,31 +23,35 @@ const SignUp = ({doctors}) => {
   // const [Profileimage, setProfileimage] = useState('');
 
 
+  /*
+  !-------------------------------------------------------------------------------------
+  */
   const generateRandomNumber = () => {
-    let randomNumber = Math.floor(Math.random() * 900000 + 100000); // generate a random 6-digit number
+    let randomNumber = Math.floor(Math.random() * 900000 + 100000); 
     return randomNumber;
   }
-
-  const reg = generateRandomNumber();
-
- 
-  const user = doctors.find(
-    (item) =>{
-      const DNumber = item?.attributes?.reg_Num;
-      const number = DNumber.substring(1);
-      return number == reg;    
-    }  
-  );
-  var valid_Reg_num  = 0
-  if(!user){
-    valid_Reg_num = reg
-    console.log('valid Reg num ')
-  }else{
-   console.log('not valid reg num')
+  
+  let valid_Reg_num = 0;
+  let reg;
+  
+  while (!valid_Reg_num) {
+    reg = generateRandomNumber();
+   
+    const user = doctors.find(
+      (item) => item?.attributes?.reg_Num && item.attributes.reg_Num.substring(1) === reg.toString()
+    );
+  
+    if (!user) {
+      valid_Reg_num = reg;
+      console.log('Valid Reg num:', valid_Reg_num);
+    } else {
+      console.log('Not valid reg num, trying again...');
+    }
   }
 
-  console.log(valid_Reg_num)
-
+  /*
+  !-------------------------------------------------------------------------------------
+  */
 
  // Hash the password
 
@@ -58,24 +62,15 @@ const SignUp = ({doctors}) => {
 };
  
 
-// const plaintextPassword = "D653225";
-// bcrypt.compare(plaintextPassword, hashedPassword).then(isMatch => {
-//   if (isMatch) {
-//     console.log('The passwords match.');
-//   } else {
-//     console.log('The passwords do not match.');
-//   }
-// });
-
-const [result ,setResult] = useState('');
-const sendEmail = ()=>{
-  fetch('/api/emails',{
-    method:'POST'
-  })
-  .then(response => response.json())
-  .then(data => {setResult(data)})
-  .catch(error => console.log(error))
-}
+// const [result ,setResult] = useState('');
+// const sendEmail = ()=>{
+//   fetch('/api/emails',{
+//     method:'POST'
+//   })
+//   .then(response => response.json())
+//   .then(data => {setResult(data)})
+//   .catch(error => console.log(error))
+// }
 
   
 

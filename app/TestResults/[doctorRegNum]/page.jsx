@@ -1,44 +1,46 @@
 'use client'
 
 import TestResults from '../_components/TestResults';
-import TestResultsApis from '../../_utils/TestResultsApis';
-import DoctorApis from "../../_utils/DoctorApis";
+import medicalrecordsAPI from '../../_utils/medicalrecordsAPI'
 import React, { useEffect, useState } from 'react'
 
  function page({params}) {
-  // {params}
-  const [doctorByRegNum, setDoctorByRegNum] = useState([]);
-  const [patient, setPatient] = useState([]);
+
+  console.log(params?.doctorRegNum)
+  // const [doctorByRegNum, setDoctorByRegNum] = useState([]);
+  const [PatientfromLabByDocReg_num, setPatient] = useState([]);
 
   useEffect(() => {
-    getPatient_();
-  }, [])
+    getPatient();
+  },[params?.doctorRegNum])
 
-  const getPatient_ = () => {
-    TestResultsApis.getPatient().then(res => {
+  const getPatient = () => {
+    medicalrecordsAPI.getMedicalRecordsByDoctorReg_Num(params?.doctorRegNum).then(res => {
       console.log(res.data.data);
       setPatient(res.data.data);
 
     })
   }
 
-  console.log(params?.doctorRegNum)
+  console.log(PatientfromLabByDocReg_num)
 
-  useEffect(() => {
-    getDoctorByRegNum_();
-  }, [params?.doctorRegNum])
+  // console.log(params?.doctorRegNum)
 
-  const getDoctorByRegNum_ = () => {
-    DoctorApis.getDoctorByRegNum(params?.doctorRegNum).then(res => {
-      console.log(res.data.data);
-      setDoctorByRegNum(res.data.data);
+  // useEffect(() => {
+  //   getDoctorByRegNum_();
+  // }, [params?.doctorRegNum])
 
-    })
-  }
+  // const getDoctorByRegNum_ = () => {
+  //   DoctorApis.getDoctorByRegNum(params?.doctorRegNum).then(res => {
+  //     console.log(res.data.data);
+  //     setDoctorByRegNum(res.data.data);
+
+  //   })
+  // }
 
   return (
     <>
-    <TestResults/>
+    <TestResults patient={PatientfromLabByDocReg_num} />
     </>
   ) 
 }export default page

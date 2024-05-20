@@ -15,11 +15,11 @@ import Loading from '../../Loading';
 
 
 function HomePage({ data }) {
- 
+
 
   const [isLoading, setIsLoading] = useState(true);
   useEffect(() => {
-    if(data){
+    if (data) {
       setIsLoading(false);
     } else {
       setIsLoading(true);
@@ -27,7 +27,7 @@ function HomePage({ data }) {
   }, [data]);
 
 
- 
+
 
 
   console.log(data)
@@ -46,35 +46,45 @@ function HomePage({ data }) {
   if (isLoading) {
     return <Loading />;
   }
- 
+
   return (
     <div>
-      
-        <header className="bg-gray-100 text-blue-500 py-5">
-          <div className="container mx-auto flex justify-between items-center">
-            <div>
-              <Image src={logo} width={60} height={60} className="text-blue-500" />
-            </div>
 
-            <nav>
-              <ul className="flex space-x-6 md:space-x-8">
-                <li>
+      <header className="bg-gray-100 text-blue-500 py-5">
+        <div className="container mx-auto flex justify-between items-center">
+          <div>
+            <Image src={logo} width={60} height={60} className="text-blue-500" />
+          </div>
+
+          <nav>
+            <ul className="flex space-x-6 md:space-x-8">
+              <li>
                 {data.map((item, index) => (
-                  <h4 key={index}  className="nav-link"> Hello ,Dr.{item?.attributes?.Name}</h4>
+                  <h4 key={index} className="nav-link" style={{ marginTop: '9px' }} > Hello ,Dr.{item?.attributes?.Name}</h4>
                 ))}
 
-                </li>
-                <li>
-                  <Image src={logo} width={40} height={40} className="text-blue-500 nav-link" />
-                </li>
-              </ul>
-            </nav>
-          </div>
-          <h3 className="text-2xl md:text-4xl lg:text-5xl font-bold p-20">
-            The Best Quality <br />
-            Service You Can Get
-          </h3>
-        </header>
+              </li>
+              <li>
+                {data.map((item, index) => (
+                  <Image
+                    key={index}
+                    src={item?.attributes?.doctor_Pic?.data?.attributes?.formats?.thumbnail?.url}
+                    width={40}
+                    height={40}
+                    className="text-blue-500 nav-link py=5"
+                    style={{ borderRadius: '50%' }}
+                    alt="Doctor's profile picture"
+                  />
+                ))}
+              </li>
+            </ul>
+          </nav>
+        </div>
+        <h3 className="text-2xl md:text-4xl lg:text-5xl font-bold p-20">
+          The Best Quality <br />
+          Service You Can Get
+        </h3>
+      </header>
 
       <section className="bg-white py-12">
         <div className="container mx-auto flex justify-between items-center">
@@ -89,8 +99,8 @@ function HomePage({ data }) {
       </section>
 
       <main className="py-12 px-8 bg-gray-200">
-          <div className="max-w-4xl mx-auto">
-            
+        <div className="max-w-4xl mx-auto">
+
           {data.map((item, index) => (
             <div key={index} className="grid grid-cols-3 sm:grid-cols-3 gap-8">
               <Link
@@ -109,7 +119,7 @@ function HomePage({ data }) {
               <Link
                 className="flex flex-col items-center justify-center space-y-4 bg-blue-300  shadow-lg rounded-xl p-6 hover:bg-gray-50  transition-colors"
                 href='/TestResults/[$id]' as={`/TestResults/${item?.attributes?.reg_Num}`}
-                >
+              >
                 <Image
                   alt="Existing Patient"
                   className="rounded-full"
@@ -135,7 +145,7 @@ function HomePage({ data }) {
               <Link
                 className="flex flex-col items-center justify-center space-y-4 bg-blue-400  shadow-lg rounded-xl p-6 hover:bg-gray-50  transition-colors"
                 href='/TableCheckUP/[$id]' as={`/TableCheckUP/${item?.attributes?.reg_Num}`}
-                // href='/NewCheckUP'
+              // href='/NewCheckUP'
               >
                 <Image
                   alt="Hospital"
@@ -149,7 +159,7 @@ function HomePage({ data }) {
             </div>
           ))}
 
-          </div>
+        </div>
       </main>
 
     </div>

@@ -21,7 +21,7 @@ function Checkup({params}) {
   return (
     <>
     
-    <NewCheckup PatientId={params?.PatientId} />
+    <NewCheckup PatientId={params?.PatientId}/>
     {console.log(params?.PatientId)}
     
     </>

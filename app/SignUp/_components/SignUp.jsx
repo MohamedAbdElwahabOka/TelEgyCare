@@ -5,17 +5,15 @@ import Link from 'next/link';
 import DoctorApis from '../../_utils/DoctorApis'
 import Swal from 'sweetalert2'
 import bcrypt from 'bcryptjs';
+import crypto from 'crypto';
+
 
 const SignUp = ({ doctors }) => {
   const [Name, setName] = useState('');
   const [Password, setPassword] = useState('');
-  // const [VerifyPassword, setVerifyPassword] = useState('');
   const [Phone, setPhone] = useState('');
   const [Email, setEmail] = useState('');
-  // const [Adress, setAdress] = useState('');
   const [NationalID, setNationalID] = useState('');
-  // const [National, setNational] = useState('');
-  // const [ExpiryDate, setExpiryDate] = useState('');
   const [LicenseNumber, setLicenseNumber] = useState('');
   const [Governorate, setGovernorate] = useState('');
   const [Typeofspecializtion, setTypeofspecializtion] = useState('');
@@ -52,14 +50,65 @@ const SignUp = ({ doctors }) => {
   /*
   !-------------------------------------------------------------------------------------
   */
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+  // function encryptPassword(password, key) {
+  //   const iv = crypto.randomBytes(16);
+  //   const cipher = crypto.createCipheriv('aes-256-cbc', Buffer.from(key), iv);
+  //   let encrypted = cipher.update(password);
+  //   encrypted = Buffer.concat([encrypted, cipher.final()]);
+  //   return `${encrypted.toString('hex')}.${iv.toString('hex')}`;
+  // }
+
+  // function decryptPassword(encryptedPassword, key) {
+  //   const [encryptedText, iv] = encryptedPassword.split('.');
+  //   const decipher = crypto.createDecipheriv('aes-256-cbc', Buffer.from(key), Buffer.from(iv, 'hex'));
+  //   let decrypted = decipher.update(Buffer.from(encryptedText, 'hex'));
+  //   decrypted = Buffer.concat([decrypted, decipher.final()]);
+  //   return decrypted.toString();
+  // }
+  
+
+  // function encryptPasssword(plainText, keyString) {
+  //   const key = Buffer.from(keyString, 'utf8');
+  //   const iv = crypto.randomBytes(16); // Generate a random IV.
+  
+  //   const cipher = crypto.createCipheriv('aes-256-cbc', key, iv);
+  
+  //   let encrypted = cipher.update(plainText, 'utf8', 'base64');
+  //   encrypted += cipher.final('base64');
+  
+  //   return `${encrypted}.${iv.toString('hex')}`; // Combine the encrypted text and the IV.
+  // }
+
+
+  // console.log(encryptPasssword("D123456","12345678901234567890123456789012"))
+
+
+  
+  /*
+  !-------------------------------------------------------------------------------------
+  */
 
   // Hash the password
 
-  const hashPassword = async (password) => {
-    const salt = bcrypt.genSaltSync(10); // Generate a salt
-    const hashedPassword = await bcrypt.hash(password, salt); // Hash the password with the salt
-    return hashedPassword;
-  };
+  // const hashPassword = async (password) => {
+  //   const salt = bcrypt.genSaltSync(10); // Generate a salt
+  //   const hashedPassword = await bcrypt.hash(password, salt); // Hash the password with the salt
+  //   return hashedPassword;
+  // };
 
 
   // const [result ,setResult] = useState('');
@@ -72,13 +121,33 @@ const SignUp = ({ doctors }) => {
   //   .catch(error => console.log(error))
   // }
 
+ 
+ 
+
+function hashPassword(password) {
+    const hash = crypto.createHash('sha256');
+    hash.update(password);
+    return hash.digest('hex');
+  }
+function comparePasswords(plaintextPassword, hashedPassword) {
+    const hashedInputPassword = hashPassword(plaintextPassword);
+    return hashedInputPassword === hashedPassword;
+  }
 
 
+  console.log(hashPassword("D123456"))
+  console.log(comparePasswords("D243870","f34102ae68e06c755ed01cfe207a8e4a543ff4879a315831d6750ebcd804bc35"))
+  
+
+
+  
   const handleSubmit = async (e) => {
     e.preventDefault();
 
 
-    const hashedPassword = await hashPassword(`D${valid_Reg_num}`);
+  //  const hashedPassword = await hashPassword(`D${valid_Reg_num}`);
+  const hashedPassword = hashPassword(`D${valid_Reg_num}`)
+
 
 
     const data = {
@@ -89,7 +158,7 @@ const SignUp = ({ doctors }) => {
         phone: Phone,
         Address: Governorate,
         // Password : Password,
-        Password: hashedPassword,
+        Password : hashedPassword,
         Type_of_Spec: Typeofspecializtion,
         LicenseNumber: LicenseNumber,
         NationalID: NationalID,
@@ -258,19 +327,19 @@ const SignUp = ({ doctors }) => {
                 required
                 className="appearance-none text-gray-700 block w-full px-5 py-3 border border-gray-300 rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
               >
-                <option value="Anatomical Pathology">Anatomical Pathology</option>
+                <option value="Anatomical Pathology"selected >Anatomical Pathology</option>
                 <option value="Anatomical Pathology">general specialty</option>
                 <option value="Anesthesiology">Anesthesiology</option>
                 <option value="Cardiovascular/Thoracic Surgery">Cardiovascular/Thoracic Surgery</option>
                 <option value="Clinical Immunology/Allergy">Clinical Immunology/Allergy</option>
                 <option value="Critical Care Medicine">Critical Care Medicine</option>
-                <option value="Dermatology" selected>Dermatology</option>
+                <option value="Dermatology">Dermatology</option>
               </select>
             </div>
           </div>
 
           <div>
-            <label className="text-gray-700">Governorate:</label>
+          <label className="text-gray-700" style={{ display: 'flex', alignItems: 'center' }}>Governorate: <span style={{ color: 'red', marginLeft: 5 }}>*</span></label>
             <div className="mt-1">
               <select
                 id="address-governorate"
@@ -279,7 +348,7 @@ const SignUp = ({ doctors }) => {
                 onChange={(e) => setGovernorate(e.target.value)}
                 className="appearance-none text-gray-700 block w-full px-5 py-3 border border-gray-300 rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
               >
-                <option value="Cairo">Cairo</option>
+                <option value="Cairo" selected>Cairo</option>
                 <option value="Giza">Giza</option>
                 <option value="Alexandria">Alexandria</option>
                 <option value="Qalyubia">Qalyubia</option>

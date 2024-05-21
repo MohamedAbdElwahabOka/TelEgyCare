@@ -9,6 +9,7 @@ import logo from './img/logo.png';
 import { useRouter } from 'next/navigation';
 import Swal from 'sweetalert2'
 import bcrypt from 'bcryptjs';
+import crypto from 'crypto';
 // import sendMail from './send-email'
 
 const Signin = ({data}) => {
@@ -30,13 +31,24 @@ const Signin = ({data}) => {
 
   const router = useRouter();
   console.log(data)
+
+  function hashPassword(password) {
+    const hash = crypto.createHash('sha256');
+    hash.update(password);
+    return hash.digest('hex');
+  }
+
+  function comparePasswords(plaintextPassword, hashedPassword) {
+    const hashedInputPassword = hashPassword(plaintextPassword);
+    return hashedInputPassword === hashedPassword;
+  }
+
   const handleSubmit = (e) => {
    
     e.preventDefault();
     const user = data.find(
       (item) =>
-        item?.attributes?.reg_Num == registrationNumber && bcrypt.compare(password, item?.attributes?.Password)
-        
+        item?.attributes?.reg_Num == registrationNumber && comparePasswords(password, item?.attributes?.Password)
     );
     if (!user) {
       setErrorMessage('Invalid registration number or password!');

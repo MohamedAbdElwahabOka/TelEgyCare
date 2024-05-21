@@ -2,5 +2,9 @@ const { default: axiosClient } = require(`./axiosClient`);
 
 
 const AddNewMedicalRecordForExistingPatient = (MedicalRecord) => axiosClient.post('/medical-records', MedicalRecord);
+const getMedicalRecordsByDoctorReg_Num = (DocReg_Num) => axiosClient.get(`medical-records?filters[doctor][reg_Num][$eq]=${DocReg_Num}&populate=*`);
 
-export default { AddNewMedicalRecordForExistingPatient }
+export default {
+    AddNewMedicalRecordForExistingPatient,
+    getMedicalRecordsByDoctorReg_Num
+ }

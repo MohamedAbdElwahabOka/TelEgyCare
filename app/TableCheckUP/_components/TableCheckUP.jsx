@@ -3,7 +3,7 @@ import React, { useEffect, useState } from 'react';
 
 import Link from 'next/link';
 
-function Table({patient}) {
+function Table({ patient }) {
 
   const calculateAge = (birthDateString) => {
     const birthDate = new Date(birthDateString);
@@ -14,20 +14,20 @@ function Table({patient}) {
   }
 
   const [searchTerm, setSearchTerm] = useState('');
-  
+
   const filteredData = patient.filter(item => {
     return item?.attributes?.patient?.data?.attributes?.reg_Num.toLowerCase().includes(searchTerm.toLowerCase()) ||
-    item?.attributes?.patient?.data?.attributes?.Name.toLowerCase().includes(searchTerm.toLowerCase()) ||
-    item?.attributes?.patient?.data?.attributes?.Email.toLowerCase().includes(searchTerm.toLowerCase()) ||
-    item?.attributes?.patient?.data?.attributes?.phone.toLowerCase().includes(searchTerm.toLowerCase()) ||
-    item?.attributes?.patient?.data?.attributes?.Governorate.toLowerCase().includes(searchTerm.toLowerCase()) ||
-    calculateAge(item?.attributes?.patient?.data?.attributes?.Birth_Date).toString().includes(searchTerm) ||
-    item?.attributes?.patient?.data?.attributes?.City.toLowerCase().includes(searchTerm.toLowerCase()) ||
-    item?.attributes?.patient?.data?.attributes?.Street.toLowerCase().includes(searchTerm.toLowerCase()) ||
-    item?.attributes?.patient?.data?.attributes?.Gender.toLowerCase().includes(searchTerm.toLowerCase()) ||
-    item?.attributes?.patient?.data?.attributes?.NationalId.toLowerCase().includes(searchTerm.toLowerCase()) ||
-    item?.attributes?.date.toLowerCase().includes(searchTerm.toLowerCase()) ||
-    item?.attributes?.time.toLowerCase().includes(searchTerm.toLowerCase())
+      item?.attributes?.patient?.data?.attributes?.Name.toLowerCase().includes(searchTerm.toLowerCase()) ||
+      item?.attributes?.patient?.data?.attributes?.Email.toLowerCase().includes(searchTerm.toLowerCase()) ||
+      item?.attributes?.patient?.data?.attributes?.phone.toLowerCase().includes(searchTerm.toLowerCase()) ||
+      item?.attributes?.patient?.data?.attributes?.Governorate.toLowerCase().includes(searchTerm.toLowerCase()) ||
+      calculateAge(item?.attributes?.patient?.data?.attributes?.Birth_Date).toString().includes(searchTerm) ||
+      item?.attributes?.patient?.data?.attributes?.City.toLowerCase().includes(searchTerm.toLowerCase()) ||
+      item?.attributes?.patient?.data?.attributes?.Street.toLowerCase().includes(searchTerm.toLowerCase()) ||
+      item?.attributes?.patient?.data?.attributes?.Gender.toLowerCase().includes(searchTerm.toLowerCase()) ||
+      item?.attributes?.patient?.data?.attributes?.NationalId.toLowerCase().includes(searchTerm.toLowerCase()) ||
+      item?.attributes?.date.toLowerCase().includes(searchTerm.toLowerCase()) ||
+      item?.attributes?.time.toLowerCase().includes(searchTerm.toLowerCase())
   });
 
   return (
@@ -43,9 +43,9 @@ function Table({patient}) {
         />
       </div>
       <div className="overflow-x-auto">
-        <table className="w-full ">
-        <thead>
-        <tr className="text-blue-500">
+        <table className="w-full bg-gray-200">
+          <thead className="sticky top-0 bg-white">
+            <tr>
               <th className="px-2 py-2">ID</th>
               <th className="px-2 py-2">Name</th>
               <th className="px-2 py-2">Email</th>
@@ -56,77 +56,92 @@ function Table({patient}) {
               <th className="px-2 py-2">NationalID</th>
               <th className="px-2 py-2">date & time</th>
             </tr>
-        </thead>
-        <tbody className='bg-white'>
-            {filteredData.length > 0 ?(
+          </thead>
+          <tbody>
+            {filteredData.length > 0 ? (
 
-            filteredData.map((item, index) => (
-              <tr key={index} className={index % 2 === 0 ? 'bg-white' : 'bg-transparent'}>
-                {item?.attributes?.pres_state == 1||2? <>
-                  {console.log(item?.attributes?.pres_state)}
-                <td className=" px-4 py-2">
-                   <Link href={`/NewCheckUP/${item?.attributes?.patient?.data?.id}`}>
-                    {item?.attributes.patient?.data?.attributes?.reg_Num}
-                  </Link>
-                </td>
+              filteredData.map((item, index) => (
+                <tr key={index} >
+                  {item?.attributes?.pres_state == 1 || 2 ? <>
+                    <td className="px-4 py-2 text-center">
 
-                <td className=" px-4 py-2">
-                  <Link href={`/NewCheckUP/${item?.attributes?.patient?.data?.id}`}>
-                    
-                    {item?.attributes?.patient?.data?.attributes?.Name}
-                  </Link>
-                </td>
-                <td className=" px-4 py-2">
-                  <Link href={`/NewCheckUP/${item?.attributes?.patient?.data?.id}`}>
-                
-                {item?.attributes?.patient?.data?.attributes?.Email}
-                  </Link>
-                </td>
-                <td className=" px-4 py-2">
-                  <Link href={`/NewCheckUP/${item?.attributes?.patient?.data?.id}`}>
-                  {item?.attributes?.patient?.data?.attributes?.phone}
-                  </Link>
-                </td>
-                <td className=" px-4 py-2">
-                  <Link href={`/NewCheckUP/${item?.attributes?.patient?.data?.id}`}>
-                     {calculateAge(item?.attributes?.patient?.data?.attributes?.Birth_Date)}
-                  </Link>
-                </td>
-                <td className=" px-4 py-2">
-                  <Link href={`/NewCheckUP/${item?.attributes?.patient?.data?.id}`}>
-                     {item?.attributes?.patient?.data?.attributes?.Governorate}-
-                     {item?.attributes?.patient?.data?.attributes?.City}-
-                     {item?.attributes?.patient?.data?.attributes?.Street}
-                  </Link>
-                </td>
-                <td className=" px-4 py-2">
-                  <Link href={`/NewCheckUP/${item?.attributes?.patient?.data?.id}`}>
-                     {item?.attributes?.patient?.data?.attributes?.Gender}
-                  </Link>
-                </td>
-                <td className=" px-4 py-2">
-                  <Link href={`/NewCheckUP/${item?.attributes?.patient?.data?.id}`}>
-                     {item?.attributes?.patient?.data?.attributes?.NationalId} 
-                  </Link>
-                </td>
-                <td className=" px-4 py-2">
-                  <Link href={`/NewCheckUP/${item?.attributes?.patient?.data?.id}`}>
-                     {item?.attributes?.date}- 
-                     {item?.attributes?.time} 
-                    
-                  </Link>
-                </td>
-                </> : <></>}
-                
-              </tr>
-            ))
-          ):(
-            <tr>
-            <td colSpan="10" className="h-20 text-center">
-              <h1 className="text-2xl font-bold">No patients found</h1>
-            </td>
-          </tr>
-          )}
+                      <Link href={`/NewCheckUP/${item?.attributes?.patient?.data?.id}`}>
+                        {item?.attributes.patient?.data?.attributes?.reg_Num}
+                      </Link>
+
+                    </td>
+                    <td className="px-4 py-2 text-center">
+
+                      <Link href={`/NewCheckUP/${item?.attributes?.patient?.data?.id}`}>
+
+                        {item?.attributes?.patient?.data?.attributes?.Name}
+                      </Link>
+
+                    </td>
+
+                    <td className="px-4 py-2 text-center">
+
+                      <Link href={`/NewCheckUP/${item?.attributes?.patient?.data?.id}`}>
+
+                        {item?.attributes?.patient?.data?.attributes?.Email}
+                      </Link>
+
+                    </td>
+                    <td className="px-4 py-2 text-center">
+
+                      <Link href={`/NewCheckUP/${item?.attributes?.patient?.data?.id}`}>
+                        {item?.attributes?.patient?.data?.attributes?.phone}
+                      </Link>
+
+                    </td>
+                    <td className="px-4 py-2 text-center">
+
+                      <Link href={`/NewCheckUP/${item?.attributes?.patient?.data?.id}`}>
+                        {calculateAge(item?.attributes?.patient?.data?.attributes?.Birth_Date)}
+                      </Link>
+
+                    </td>
+                    <td className="px-4 py-2 text-center">
+
+                      <Link href={`/NewCheckUP/${item?.attributes?.patient?.data?.id}`}>
+                        {item?.attributes?.patient?.data?.attributes?.Governorate}-
+                        {item?.attributes?.patient?.data?.attributes?.City}-
+                        {item?.attributes?.patient?.data?.attributes?.Street}
+                      </Link>
+
+                    </td>
+
+                    <td className="px-4 py-2 text-center">
+
+
+                      <Link href={`/NewCheckUP/${item?.attributes?.patient?.data?.id}`}>
+                        {item?.attributes?.patient?.data?.attributes?.Gender}
+                      </Link>
+
+                    </td>
+                    <td className="px-4 py-2 text-center">
+                      <Link href={`/NewCheckUP/${item?.attributes?.patient?.data?.id}`}>
+                        {item?.attributes?.patient?.data?.attributes?.NationalId}
+                      </Link>
+
+                    </td>
+                    <td className="px-4 py-2 text-center">
+
+                      <Link href={`/NewCheckUP/${item?.attributes?.patient?.data?.id}`}>
+                        {item?.attributes?.date}-
+                        {item?.attributes?.time}
+
+                      </Link>
+                    </td>
+                  </> : <></>}
+                </tr>
+
+              ))) : (
+              <div className="flex justify-center items-center w-full h-96">
+                <h1 className="text-2xl text-gray-500">No Patients Found</h1>
+              </div>
+            )
+            }
           </tbody>
         </table>
       </div>

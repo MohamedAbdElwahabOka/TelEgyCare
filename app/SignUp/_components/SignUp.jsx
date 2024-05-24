@@ -15,8 +15,8 @@ const SignUp = ({ doctors }) => {
   const [Email, setEmail] = useState('');
   const [NationalID, setNationalID] = useState('');
   const [LicenseNumber, setLicenseNumber] = useState('');
-  const [Governorate, setGovernorate] = useState('');
-  const [Typeofspecializtion, setTypeofspecializtion] = useState('');
+  const [Governorate, setGovernorate] = useState('Cairo');
+  const [Typeofspecializtion, setTypeofspecializtion] = useState('Anatomical Pathology');
   // const [UploadLicense, setUploadLicense] = useState('');
   // const [Profileimage, setProfileimage] = useState('');
 

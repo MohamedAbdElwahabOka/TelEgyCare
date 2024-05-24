@@ -1,6 +1,10 @@
 "use client"
 import Image from 'next/image';
-import doctor from '../../_components/img/Character1.png'
+import doctor from '/public/Character1.png'
+import MRI from '/public/MRI.png'
+import CT from '/public/CT.png'
+import X_Ray from '/public/X-Ray.png'
+import Pulm from '/public/Pulm.png'
 import React, { useEffect, useState } from 'react'
 import PatientApis from '../../_utils/PatientApis'
 import Swal from 'sweetalert2'
@@ -264,21 +268,61 @@ export default function Component({ PatientId }) {
                                         </div>
                                     </div>
 
-                                    <div class="space-y-2 max-w-md">
-                                        <label class="text-sm text-black " for="specialization">
-                                            Specialization
+                                    <div className='mb-4'>
+                                        <label class="text-sm text-black" for="labType">
+                                            Choose lab type (optional)
                                         </label>
-                                        <select
-                                            class="w-full border border-gray-400 rounded-md bg-gray-100 px-2 py-2 text-black flex justify-center"
-                                            id="specialization"
-                                            required
-                                        >
-                                            <option value="cardiology">Cardiology</option>
-                                            <option value="dermatology">Dermatology</option>
-                                            <option value="gastroenterology">Gastroenterology</option>
-                                            <option value="orthopedics">Orthopedics</option>
-                                            <option value="ophthalmology">Ophthalmology</option>
-                                        </select>
+                                        <p className='text-sm text-gray-500'>you can choose multiple types</p>
+                                    </div>
+                                    <div class="flex flex-col-2 gap-3">
+                                        <div>
+                                            <div class="flex flex-col items-center mb-6">
+                                                <label class="cursor-pointer">
+                                                    <input type="checkbox" class="peer sr-only" />
+                                                    <div class="rounded-xl bg-white p-5 text-gray-600 shadow-xl ring-2 ring-transparent transition-all hover:shadow-xl hover:ring-blue-400 peer-checked:text-blue-500 peer-checked:ring-blue-500 peer-checked:ring-offset-2 w-40 h-30">
+                                                        <div class="flex flex-col items-center">
+                                                            <Image height={65} src={MRI} width={65} alt="Doctor" class="relative " />
+                                                            <p class="text-lg font-bold pt-1">MRI</p>
+                                                        </div>
+                                                    </div>
+                                                </label>
+                                            </div>
+                                            <div class="flex flex-col items-center">
+                                                <label class="cursor-pointer">
+                                                    <input type="checkbox" class="peer sr-only" />
+                                                    <div class="rounded-xl bg-white p-5 text-gray-600 shadow-xl ring-2 ring-transparent transition-all hover:shadow-xl hover:ring-blue-400 peer-checked:text-blue-500 peer-checked:ring-blue-500 peer-checked:ring-offset-2 w-40 h-30">
+                                                        <div class="flex flex-col items-center">
+                                                            <Image height={62} src={X_Ray} width={62} alt="Doctor" class="relative" />
+                                                            <p class="text-lg font-bold pt-1">X-Ray</p>
+                                                        </div>
+                                                    </div>
+                                                </label>
+                                            </div>
+                                        </div>
+                                        <div >
+                                        <div class="flex flex-col items-center mb-6">
+                                                <label class="cursor-pointer">
+                                                    <input type="checkbox" class="peer sr-only"/>
+                                                    <div class="rounded-xl  bg-white p-5 text-gray-600 shadow-xl ring-2 ring-transparent transition-all hover:shadow-xl hover:ring-blue-400 peer-checked:text-blue-500 peer-checked:ring-blue-500 peer-checked:ring-offset-2 w-40 h-30">
+                                                        <div class="flex flex-col items-center">
+                                                            <Image height={62} src={CT} width={62} alt="Doctor" class="relative" />
+                                                            <p class="text-lg font-bold pt-1">CT</p>
+                                                        </div>
+                                                    </div>
+                                                </label>
+                                            </div>
+                                            <div class="flex flex-col items-center">
+                                                <label class="cursor-pointer">
+                                                    <input type="checkbox" class="peer sr-only" />
+                                                    <div class=" rounded-xl bg-white p-5 text-gray-600 shadow-xl ring-2 ring-transparent transition-all hover:shadow-xl hover:ring-blue-400 peer-checked:text-blue-500 peer-checked:ring-blue-500 peer-checked:ring-offset-2 w-40 h-30">
+                                                        <div class="flex flex-col items-center">
+                                                            <Image height={59} src={Pulm} width={59} alt="Doctor" class="relative" />
+                                                            <p class="text-lg font-bold pt-1">Pulmonology</p>
+                                                        </div>
+                                                    </div>
+                                                </label>
+                                            </div>
+                                        </div>
                                     </div>
 
                                     <div className='py-6'>
@@ -311,8 +355,8 @@ export default function Component({ PatientId }) {
                                 </div>
 
                                 <div className=" relative">
-                                    <div class="relative w-35 h-30 py-8">
-                                        <Image src={doctor} alt="Doctor" class="relative inset-0 object-cover h-full w-full" />
+                                    <div class="relative w-50 h-45 py-9">
+                                        <Image src={doctor} alt="Doctor" class="relative inset-2 object-cover h-full w-full" />
                                     </div>
                                 </div>
                             </div>
@@ -330,7 +374,6 @@ export default function Component({ PatientId }) {
                     </div>
 
                 </div>
-                {/* </div>  */}
             </section>
         </div>
     );

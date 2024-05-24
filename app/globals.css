@@ -2,6 +2,19 @@
 @tailwind components;
 @tailwind utilities;
 
+.my-custom-popup .swal2-loading {
+  color: transparent !important;
+}
+
+.my-loading-gif {
+  width: 150px;
+  /* Adjust as needed */
+  height: 113px;
+  /* Adjust as needed */
+  display: block;
+  margin: 0 auto;
+}
+
 /* :root {
   --foreground-rgb: 0, 0, 0;
   --background-start-rgb: 214, 219, 220;

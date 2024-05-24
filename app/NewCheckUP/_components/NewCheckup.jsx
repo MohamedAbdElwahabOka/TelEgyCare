@@ -282,7 +282,7 @@ export default function Component({ PatientId }) {
                                                     <div class="rounded-xl bg-white p-5 text-gray-600 shadow-xl ring-2 ring-transparent transition-all hover:shadow-xl hover:ring-blue-400 peer-checked:text-blue-500 peer-checked:ring-blue-500 peer-checked:ring-offset-2 w-40 h-30">
                                                         <div class="flex flex-col items-center">
                                                             <Image height={65} src={MRI} width={65} alt="Doctor" class="relative " />
-                                                            <p class="text-lg font-bold">MRI</p>
+                                                            <p class="text-lg font-bold pt-1">MRI</p>
                                                         </div>
                                                     </div>
                                                 </label>
@@ -293,7 +293,7 @@ export default function Component({ PatientId }) {
                                                     <div class="rounded-xl bg-white p-5 text-gray-600 shadow-xl ring-2 ring-transparent transition-all hover:shadow-xl hover:ring-blue-400 peer-checked:text-blue-500 peer-checked:ring-blue-500 peer-checked:ring-offset-2 w-40 h-30">
                                                         <div class="flex flex-col items-center">
                                                             <Image height={62} src={X_Ray} width={62} alt="Doctor" class="relative" />
-                                                            <p class="text-lg font-bold">X-Ray</p>
+                                                            <p class="text-lg font-bold pt-1">X-Ray</p>
                                                         </div>
                                                     </div>
                                                 </label>
@@ -305,8 +305,8 @@ export default function Component({ PatientId }) {
                                                     <input type="checkbox" class="peer sr-only"/>
                                                     <div class="rounded-xl  bg-white p-5 text-gray-600 shadow-xl ring-2 ring-transparent transition-all hover:shadow-xl hover:ring-blue-400 peer-checked:text-blue-500 peer-checked:ring-blue-500 peer-checked:ring-offset-2 w-40 h-30">
                                                         <div class="flex flex-col items-center">
-                                                            <Image height={63} src={CT} width={63} alt="Doctor" class="relative" />
-                                                            <p class="text-lg font-bold">CT</p>
+                                                            <Image height={62} src={CT} width={62} alt="Doctor" class="relative" />
+                                                            <p class="text-lg font-bold pt-1">CT</p>
                                                         </div>
                                                     </div>
                                                 </label>
@@ -316,8 +316,8 @@ export default function Component({ PatientId }) {
                                                     <input type="checkbox" class="peer sr-only" />
                                                     <div class=" rounded-xl bg-white p-5 text-gray-600 shadow-xl ring-2 ring-transparent transition-all hover:shadow-xl hover:ring-blue-400 peer-checked:text-blue-500 peer-checked:ring-blue-500 peer-checked:ring-offset-2 w-40 h-30">
                                                         <div class="flex flex-col items-center">
-                                                            <Image height={60} src={Pulm} width={60} alt="Doctor" class="relative" />
-                                                            <p class="text-lg font-bold">Pulmonology</p>
+                                                            <Image height={59} src={Pulm} width={59} alt="Doctor" class="relative" />
+                                                            <p class="text-lg font-bold pt-1">Pulmonology</p>
                                                         </div>
                                                     </div>
                                                 </label>

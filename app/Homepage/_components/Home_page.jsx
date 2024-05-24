@@ -5,12 +5,12 @@ import logo from '/public/logo.svg'
 import Image from "next/image";
 import homephoto from '/public/home_page_photo.png'
 import doctor from '/public/doctor.png'
-import lab from '/public/Lab.png'
 import chat from '/public/chat.png'
 import newcheckup from '/public/new checkup.png'
 import list from '/public/list-icon-png-19.jpg'
 import { useRouter } from 'next/navigation';
 import React, { useState, useEffect } from 'react';
+import logout from "/public/Left icon.png"
 import Loading from '../../Loading';
 
 
@@ -26,7 +26,10 @@ function HomePage({ data }) {
     }
   }, [data]);
 
-
+  const logOut = () => {
+    // Cookies.set("loggedin",false)
+    router.push('/')
+  }
 
 
 
@@ -143,9 +146,8 @@ function HomePage({ data }) {
                 <h3 className="text-xl font-bold text-gray-800 ">Chats</h3>
               </Link>
               <Link
-                className="flex flex-col items-center justify-center space-y-4 bg-blue-400  shadow-lg rounded-xl p-6 hover:bg-gray-50  transition-colors"
+                className="flex flex-col items-center justify-center space-y-4 bg-blue-300  shadow-lg rounded-xl p-6 hover:bg-gray-50  transition-colors"
                 href='/TableCheckUP/[$id]' as={`/TableCheckUP/${item?.attributes?.reg_Num}`}
-              // href='/NewCheckUP'
               >
                 <Image
                   alt="Hospital"
@@ -156,6 +158,19 @@ function HomePage({ data }) {
                 />
                 <h3 className="text-xl font-bold text-gray-800 ">New Checkup</h3>
               </Link>
+
+              <button
+                className="flex flex-col items-center justify-center space-y-4 bg-blue-400 shadow-lg rounded-xl p-6 hover:bg-red-500 transition-colors"
+                onClick={() => logOut()}
+              >
+                <Image
+                  alt="Hospital"
+                  height={90}
+                  src={logout}
+                  width={90}
+                />
+                <h3 className="text-xl font-bold text-gray-800">Log out</h3>
+              </button>
             </div>
           ))}
 

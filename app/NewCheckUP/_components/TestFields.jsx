@@ -1,6 +1,6 @@
 import React from 'react'
 import Image from 'next/image';
-import plusIcon from '../../_components/img/plus.png'
+import plusIcon from '/public/plus.png'
 
 const TestFields = ({ testFields, onAddTestField }) => {
   return (

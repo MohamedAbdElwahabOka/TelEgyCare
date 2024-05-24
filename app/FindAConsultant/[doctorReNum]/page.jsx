@@ -1,34 +1,58 @@
 'use client'
 import FindConsultant from '../_components/FindConsultant';
 import ConsultantsApis from '../../_utils/ConsultantsApis';
-import React, { useEffect, useState,Suspense } from 'react'
-import Loading from '../../Loading';
+import Swal from 'sweetalert2'
+import React, { useEffect, useState} from 'react'
 
- function page({params}) {
-  // {params}
-// console.log(params);
+function page({ params }) {
 
   const [doctorByReNum, setDoctorByReNum] = useState([]);
   const [Consultants, setConsultant] = useState([]);
+  const [isLoading, setIsLoading] = useState(true);
+
 
   useEffect(() => {
     getConsultant_();
   }, [])
 
-  const getConsultant_ = () => {
-    ConsultantsApis.getConsultant().then(res => {
-      console.log(res.data.data);
-      setConsultant(res.data.data);
 
-    })
+  const getConsultant_ = () => {
+
+    Swal.fire({
+      title: 'Loading...',
+      html: '<img class="my-loading-gif" src="/heart_loading.gif" alt="Loading..." />',
+      showConfirmButton: false,
+      allowOutsideClick: false,
+      allowEscapeKey: false,
+      allowEnterKey: false,
+      customClass: {
+        popup: 'my-custom-popup'
+      }
+    });
+    ConsultantsApis.getConsultant()
+      .then(res => {
+        console.log(res.data.data);
+        setConsultant(res.data.data);
+
+        setIsLoading(false);
+        Swal.close();
+
+      })
+      .catch(err => {
+        console.error(err);
+        setIsLoading(false);
+        Swal.close();
+        // Handle error appropriately
+      });
   }
+
 
   console.log(params)
 
   useEffect(() => {
     getDoctorByReNum_();
   }, [params?.doctorReNum])
-  // params?.doctorRegNum
+
   const getDoctorByReNum_ = () => {
     ConsultantsApis.getDoctorByReNum(params?.doctorReNum).then(res => {
       console.log(res.data.data);
@@ -39,13 +63,12 @@ import Loading from '../../Loading';
 
 
   return (
-   <>
+    <>
 
-      <Suspense fallback={<p className='text-xl font-bold text-gray-500 mb-4 px-4'>Loading feed...</p>}>
-      <FindConsultant data={doctorByReNum} consultant={Consultants}  />
-      </Suspense>
-
-   
-   </>
-  ) 
-}export default page
+      <div className="flex-grow bg-gray-100">
+        {isLoading ? (<div className="flex items-center justify-center min-h-screen">
+          <h1>Loading...</h1></div>) : (<FindConsultant data={doctorByReNum} consultant={Consultants} />)}
+      </div>
+    </>
+  )
+} export default page

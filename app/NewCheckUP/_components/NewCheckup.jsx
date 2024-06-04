@@ -17,6 +17,8 @@ export default function Component({ PatientId }) {
         { id: 1, value: '' },
     ]);
 
+    // console.log(testFields)
+
     const handleAddTestField = () => {
         setTestFields([...testFields, { id: testFields.length + 1, value: '' }]);
     };
@@ -91,7 +93,50 @@ export default function Component({ PatientId }) {
                 text: "There was an error recording, try again"
             });
         });
+
+
     }
+
+
+    const uploadPdf = async () => {
+        const { value: file } = await Swal.fire({
+            title: 'Select PDF',
+            input: 'file',
+            inputAttributes: {
+                'accept': 'application/pdf',
+                'aria-label': 'Upload your PDF'
+            }
+        });
+    
+        if (file) {
+            const formData = new FormData();
+            formData.append('files', file);
+    
+            try {
+                const response = await fetch('http://localhost:1337/api/upload', {
+                    method: 'POST',
+                    body: formData,
+                });
+    
+                if (!response.ok) {
+                    throw new Error('Network response was not ok');
+                }
+    
+                const data = await response.json();
+                console.log(data)
+                Swal.fire({
+                    title: 'Your uploaded PDF',
+                    text: 'The PDF has been uploaded successfully.',
+                });
+            } catch (error) {
+                Swal.fire({
+                    title: 'Error',
+                    text: 'There was an error uploading the PDF.',
+                    icon: 'error',
+                });
+            }
+        }
+    };
 
 
 
@@ -255,16 +300,23 @@ export default function Component({ PatientId }) {
                                         </div>
 
                                         <div class="space-y-2">
+                                            <button
+                                            className='class="w-full border border-gray-400 rounded-md bg-gray-100 px-2 py-1 text-black'
+                                                onClick={uploadPdf}
+                                            >
+                                                Upload Files
+                                            </button>
                                             <label class="text-sm text-black" for="files">
                                                 Upload Files (Optional)
                                             </label>
-                                            <input
+                                            {/* <input
                                                 class="w-full border border-gray-400 rounded-md bg-gray-100 px-2 py-1 text-black"
                                                 id="files"
                                                 multiple
                                                 type="file"
                                                 required
-                                            />
+                                            /> */}
+                                           
                                         </div>
                                     </div>
 

@@ -3,6 +3,8 @@ import FindConsultant from '../_components/FindConsultant';
 import ConsultantsApis from '../../_utils/ConsultantsApis';
 import Swal from 'sweetalert2'
 import React, { useEffect, useState} from 'react'
+import withAuth from "../../_utils/withAuth"
+// import Loading from '../../Loading'; 
 
 function page({ params }) {
 
@@ -33,7 +35,6 @@ function page({ params }) {
       .then(res => {
         console.log(res.data.data);
         setConsultant(res.data.data);
-
         setIsLoading(false);
         Swal.close();
 
@@ -65,10 +66,25 @@ function page({ params }) {
   return (
     <>
 
-      <div className="flex-grow bg-gray-100">
+     {/* {
+
+      isLoading ? (
+        <Loading />
+      ) : (
+        
+        <div className="flex-grow bg-gray-100">
+        
+        <FindConsultant data={doctorByReNum} consultant={Consultants} />
+      
+        </div>
+    
+      )
+     } */}
+
+       <div className="flex-grow bg-gray-100">
         {isLoading ? (<div className="flex items-center justify-center min-h-screen">
           <h1>Loading...</h1></div>) : (<FindConsultant data={doctorByReNum} consultant={Consultants} />)}
       </div>
     </>
   )
-} export default page
+} export default withAuth(page);

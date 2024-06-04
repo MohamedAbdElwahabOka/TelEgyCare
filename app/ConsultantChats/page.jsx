@@ -1,6 +1,8 @@
+'use client'
 import Link from 'next/link'
 import Chat from '../_components/ConsultantChat'
 import Sidebar from '../_components/Sidebar'
+import withAuth from "../_utils/withAuth"
 
 function Chats() {
   return (
@@ -42,5 +44,5 @@ function Chats() {
   )
 }
 
-export default Chats
+export default withAuth(Chats);
 

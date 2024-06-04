@@ -12,6 +12,7 @@ import { useRouter } from 'next/navigation';
 import React, { useState, useEffect } from 'react';
 import logout from "/public/Left icon.png"
 import Loading from '../../Loading';
+import Cookies from 'js-cookie';
 
 
 function HomePage({ data }) {
@@ -26,11 +27,27 @@ function HomePage({ data }) {
     }
   }, [data]);
 
-  const logOut = () => {
-    // Cookies.set("loggedin",false)
-    router.push('/')
-  }
+  // const logOut = () => {
+  //   Cookies.remove('user');
+  //   router.push('/');
+  // }
+// console.log()
+//   useEffect(() => {
+//     const userCookie = Cookies.get(`user_${data[0]?.attributes?.reg_Num}`);
+//     console.log(userCookie)
+//     // if (userCookie) {
+//     //   // Cookies.remove(`user_${data[0]?.attributes?.reg_Num}`);
+//     //   router.push('/');
+//     // }
+//   }, []);
 
+  const logOut = () => {
+    const user = JSON.parse(Cookies.get(`user_${data[0]?.attributes?.reg_Num}`));
+    if (user) {
+      Cookies.remove(`user_${user?.attributes?.reg_Num}`);
+      router.push('/');
+    }
+  }
 
 
   console.log(data)
@@ -46,9 +63,9 @@ function HomePage({ data }) {
   //     router.push(`/FindAConsultant/${user?.attributes?.reg_Num}`)
   //   } 
   // };
-  if (isLoading) {
-    return <Loading />;
-  }
+  // if (isLoading) {
+  //   return <Loading />;
+  // }
 
   return (
     <div>

@@ -13,11 +13,17 @@ import TestFields from '../_components/TestFields'
 
 export default function Component({ PatientId }) {
 
+
+    const [height, setHeight] = useState('');
+    const [weight, setWeight] = useState('');
+    const [body_Mass_Index, setBody_Mass_Index] = useState('');
+    const [blood_Pressure, setBlood_Pressure] = useState('');
+    const [prescription, setPrescription] = useState('');
+    const [doctor_Files, setDoctor_Files] = useState();
+
     const [testFields, setTestFields] = useState([
         { id: 1, value: '' },
     ]);
-
-    // console.log(testFields)
 
     const handleAddTestField = () => {
         setTestFields([...testFields, { id: testFields.length + 1, value: '' }]);
@@ -25,7 +31,7 @@ export default function Component({ PatientId }) {
 
     console.log(PatientId)
     /*
-    ! calculateAge Start 
+    ! -------------------------------calculateAge Start-------------------------------------------- 
     */
     const calculateAge = (birthDateString) => {
         const birthDate = new Date(birthDateString);
@@ -36,42 +42,154 @@ export default function Component({ PatientId }) {
     }
 
     /*
-! calculateAge End 
+! ---------------------------------------calculateAge End------------------------------------------------ 
 */
     /*
-    !__________________________________________________________________________________________________
+    !________________________________________patientData Start__________________________________________________________
     */
-    /*
-    ! patientData Start 
-    */
+    
     const [patientData, setPatientData] = useState([]);
     useEffect(() => {
         getPatientDetailsFromPatientsById_();
     }, [])
 
     const getPatientDetailsFromPatientsById_ = () => {
-        PatientApis.getPatientDetailsFromPatientsById(PatientId).then(res => {
+            PatientApis.getPatientDetailsFromPatientsById(PatientId).then(res => {
             console.log(res.data.data);
             setPatientData(res.data.data);
 
         })
     }
     /*
-  ! patientData End
-  */
-    /*
-    !__________________________________________________________________________________________________
+    !_____________________________________________ patientData End_____________________________________________________
     */
 
+/*
+  !----------getMedicalRecords----------------------------Start Random Number for Medical_Record_Id -----------------------------------------------
+*/ 
+
+const [MedicalRecords, setMedicalRecords] = useState([]);
+    useEffect(() => {
+        getMedicalRecords_();
+    }, [])
+
+const getMedicalRecords_ = () => {
+  medicalrecordsAPI.getMedicalRecords().then(res => {
+  console.log(res.data.data);
+  setMedicalRecords(res.data.data);
+
+ })
+}
+
+
+
+const generateRandomNumber = () => {
+    let randomNumber = Math.floor(Math.random() * 900000 + 100000);
+    return randomNumber;
+  }
+
+  let valid_Reg_num = 0;
+  let reg;
+
+  while (!valid_Reg_num) {
+    reg = generateRandomNumber();
+
+    const user = MedicalRecords.find(
+      (item) => item?.attributes?.reg_Num && item.attributes.reg_Num.substring(1) === reg.toString()
+    );
+
+    if (!user) {
+      valid_Reg_num = reg;
+      console.log('Valid Reg num:', valid_Reg_num);
+    } else {
+      console.log('Not valid reg num, trying again...');
+    }
+  }
+
+/*
+  !--------------------------------------End Random Number for Medical_Record_Id -----------------------------------------------
+*/ 
+
+  /*
+  !--------------------------------------start PDF upload -----------------------------------------------
+  */ 
+
+const uploadPdf = async () => {
+    const { value: file } = await Swal.fire({
+        title: 'Select PDF',
+        input: 'file',
+        inputAttributes: {
+            'accept': 'application/pdf',
+            'aria-label': 'Upload your PDF'
+        }
+    });
+
+    if (file) {
+        const formData = new FormData();
+        formData.append('files', file);
+        Swal.fire({
+            title: 'Uploading Your Pdf...',
+            html: '<img class="my-loading-gif" src="/heart_loading.gif" alt="Loading..." />',
+            showConfirmButton: false,
+            allowOutsideClick: false,
+            allowEscapeKey: false,
+            allowEnterKey: false,
+            customClass: {
+              popup: 'my-custom-popup'
+            }
+          });
+
+        try {
+            const response = await fetch('http://localhost:1337/api/upload', {
+                method: 'POST',
+                body: formData,
+            });
+
+            if (!response.ok) {
+                throw new Error('Network response was not ok');
+            }
+            Swal.close();
+            const data = await response.json();
+            console.log(data)
+            setDoctor_Files(data[0].id)
+        
+            Swal.fire({
+                title: 'Your uploaded PDF',
+                text: 'The PDF has been uploaded successfully.',
+            });
+        } catch (error) {
+            Swal.fire({
+                title: 'Error',
+                text: 'There was an error uploading the PDF.',
+                icon: 'error',
+            });
+        }
+    }
+};
+
+/*
+!--------------------------------------End PDF upload -----------------------------------------------*/
+
+/*
+  !--------------------------------------start handleInputChange -----------------------------------------------*/ 
     const handleInputChange = (e) => {
         e.preventDefault();
         console.log(PatientId)
         let Id = parseInt(PatientId);
         console.log(Id)
+
         const data = {
             data: {
-                Medical_RecordId: "MTEST",
-                patient: Id
+                Medical_RecordId: `M${valid_Reg_num}`,
+                patient: Id,
+                Height:height,
+                Weight:weight,
+                Body_Mass_Index:body_Mass_Index,
+                Blood_Pressure:blood_Pressure,
+                prescription:prescription,
+                doctor_Files:doctor_Files
+                
+
             }
         }
 
@@ -98,47 +216,10 @@ export default function Component({ PatientId }) {
     }
 
 
-    const uploadPdf = async () => {
-        const { value: file } = await Swal.fire({
-            title: 'Select PDF',
-            input: 'file',
-            inputAttributes: {
-                'accept': 'application/pdf',
-                'aria-label': 'Upload your PDF'
-            }
-        });
-    
-        if (file) {
-            const formData = new FormData();
-            formData.append('files', file);
-    
-            try {
-                const response = await fetch('http://localhost:1337/api/upload', {
-                    method: 'POST',
-                    body: formData,
-                });
-    
-                if (!response.ok) {
-                    throw new Error('Network response was not ok');
-                }
-    
-                const data = await response.json();
-                console.log(data)
-                Swal.fire({
-                    title: 'Your uploaded PDF',
-                    text: 'The PDF has been uploaded successfully.',
-                });
-            } catch (error) {
-                Swal.fire({
-                    title: 'Error',
-                    text: 'There was an error uploading the PDF.',
-                    icon: 'error',
-                });
-            }
-        }
-    };
+ 
 
-
+/*
+  !--------------------------------------end handleInputChange -----------------------------------------------*/ 
 
 
     return (
@@ -211,24 +292,25 @@ export default function Component({ PatientId }) {
                                     <div>
                                         <div className="text-sm text-blue-500 font-bold">Height</div>
                                         <input
-                                            type="number"
-                                            // placeholder="Enter height (cm)"
+                                            type="text"
                                             className="text-black  w-full border border-gray-400 rounded-md bg-gray-100 px-2 py-1"
                                             name="height"
-                                            // value={patientSpecs.height}
-                                            onChange={handleInputChange}
+                                            value={height}
+                                            onChange={(e) => setHeight(e.target.value)}
+
                                             required
+                                            
                                         />
                                     </div>
                                     <div>
                                         <div className="text-sm text-blue-500 font-bold">Weight</div>
                                         <input
-                                            type="number"
-                                            // placeholder="Enter weight (kg)"
+                                            type="text"
+                                        
                                             className="text-black  w-full border border-gray-400 rounded-md bg-gray-100 px-2 py-1"
                                             name="weight"
-                                            // value={patientSpecs.weight}
-                                            onChange={handleInputChange}
+                                            value={weight}
+                                            onChange={(e) => setWeight(e.target.value)}
                                             required
                                         />
                                     </div>
@@ -239,8 +321,8 @@ export default function Component({ PatientId }) {
                                             // placeholder="Enter BMI"
                                             className="text-black  w-full border border-gray-400 rounded-md bg-gray-100 px-2 py-1"
                                             name="BMI"
-                                            // value={patientSpecs.BMI}
-                                            onChange={handleInputChange}
+                                            value={body_Mass_Index}
+                                            onChange={(e) => setBody_Mass_Index(e.target.value)}
                                             required
                                         />
                                         {/* {bmi && (
@@ -257,22 +339,23 @@ export default function Component({ PatientId }) {
                                             // placeholder="Enter blood pressure (e.g., 120/80 mmHg)"
                                             className="text-black  w-full border border-gray-400 rounded-md bg-gray-100 px-2 py-1"
                                             name="bloodPressure"
-                                            // value={patientSpecs.bloodPressure}
-                                            onChange={handleInputChange}
+                                            value={blood_Pressure}
+                                            onChange={(e) => setBlood_Pressure(e.target.value)}
                                             required
                                         />
                                     </div>
                                     <div>
-                                        <div className="text-sm text-blue-500 font-bold">pulse</div>
+                                        <div className="text-sm text-blue-500 font-bold opacity-40">pulse</div>
                                         <input
                                             type="text"
                                             // placeholder="Enter pulse"
                                             // w-full border border-gray-400 rounded-md bg-gray-100 px-2 py-1 
-                                            className="text-black  w-full border border-gray-400 rounded-md bg-gray-100 px-2 py-1"
+                                            className="text-black  w-full border border-gray-400 rounded-md bg-gray-100 px-2 py-1 opacity-40"
                                             name="pulse"
-                                            // value={patientSpecs.pulse}
-                                            onChange={handleInputChange}
+                                            value={height}
+                                            onChange={(e) => setHeight(e.target.value)}
                                             required
+                                            disabled
                                         />
                                     </div>
                                 </div>
@@ -295,6 +378,8 @@ export default function Component({ PatientId }) {
                                                 id="Prescription"
                                                 placeholder="Enter prescription details"
                                                 rows="2"
+                                                value={prescription}
+                                                onChange={(e) => setPrescription(e.target.value)}
                                                 required
                                             />
                                         </div>

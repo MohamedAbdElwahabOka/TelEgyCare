@@ -4,6 +4,7 @@ import Table from '../_components/TableCheckUP'
 import PatientApis from '../../_utils/PatientApis';
 import Swal from 'sweetalert2'
 import React, { useEffect, useState } from 'react'
+import withAuth from "../../_utils/withAuth"
 
 
 function PatientId({ params }) {
@@ -61,5 +62,5 @@ function PatientId({ params }) {
     </>
   )
 }
+export default withAuth(PatientId);
 
-export default PatientId

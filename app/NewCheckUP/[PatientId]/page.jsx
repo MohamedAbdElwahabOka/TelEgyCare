@@ -29,4 +29,4 @@ function Checkup({params}) {
   )
 }
 // patient={Patients}
-export default Checkup
+export default withAuth(Checkup)

@@ -15,6 +15,8 @@ function Table({ patient }) {
 
   const [searchTerm, setSearchTerm] = useState('');
 
+  console.log(patient)
+
   const filteredData = patient.filter(item => {
     return item?.attributes?.patient?.data?.attributes?.reg_Num.toLowerCase().includes(searchTerm.toLowerCase()) ||
       item?.attributes?.patient?.data?.attributes?.Name.toLowerCase().includes(searchTerm.toLowerCase()) ||
@@ -59,20 +61,20 @@ function Table({ patient }) {
           </thead>
           <tbody>
             {filteredData.length > 0 ? (
-
               filteredData.map((item, index) => (
                 <tr key={index} >
-                  {item?.attributes?.pres_state == 1 || 2 ? <>
+                  {item?.attributes?.State !='1' ? <>
                     <td className="px-4 py-2 text-center">
 
-                      <Link href={`/NewCheckUP/${item?.attributes?.patient?.data?.id}`}>
+                      <Link href={`/NewCheckUP/${item?.attributes?.patient?.data?.id}?iD=${item?.attributes?.doctor?.data?.id}&AId=${item?.id}`}>
+
                         {item?.attributes.patient?.data?.attributes?.reg_Num}
                       </Link>
 
                     </td>
                     <td className="px-4 py-2 text-center">
 
-                      <Link href={`/NewCheckUP/${item?.attributes?.patient?.data?.id}`}>
+                      <Link href={`/NewCheckUP/${item?.attributes?.patient?.data?.id}?iD=${item?.attributes?.doctor?.data?.id}&AId=${item?.id}`}>
 
                         {item?.attributes?.patient?.data?.attributes?.Name}
                       </Link>
@@ -81,7 +83,7 @@ function Table({ patient }) {
 
                     <td className="px-4 py-2 text-center">
 
-                      <Link href={`/NewCheckUP/${item?.attributes?.patient?.data?.id}`}>
+                      <Link href={`/NewCheckUP/${item?.attributes?.patient?.data?.id}?iD=${item?.attributes?.doctor?.data?.id}&AId=${item?.id}`}>
 
                         {item?.attributes?.patient?.data?.attributes?.Email}
                       </Link>
@@ -89,21 +91,21 @@ function Table({ patient }) {
                     </td>
                     <td className="px-4 py-2 text-center">
 
-                      <Link href={`/NewCheckUP/${item?.attributes?.patient?.data?.id}`}>
+                      <Link href={`/NewCheckUP/${item?.attributes?.patient?.data?.id}?iD=${item?.attributes?.doctor?.data?.id}&AId=${item?.id}`}>
                         {item?.attributes?.patient?.data?.attributes?.phone}
                       </Link>
 
                     </td>
                     <td className="px-4 py-2 text-center">
 
-                      <Link href={`/NewCheckUP/${item?.attributes?.patient?.data?.id}`}>
+                      <Link href={`/NewCheckUP/${item?.attributes?.patient?.data?.id}?iD=${item?.attributes?.doctor?.data?.id}&AId=${item?.id}`}>
                         {calculateAge(item?.attributes?.patient?.data?.attributes?.Birth_Date)}
                       </Link>
 
                     </td>
                     <td className="px-4 py-2 text-center">
 
-                      <Link href={`/NewCheckUP/${item?.attributes?.patient?.data?.id}`}>
+                      <Link href={`/NewCheckUP/${item?.attributes?.patient?.data?.id}?iD=${item?.attributes?.doctor?.data?.id}&AId=${item?.id}`}>
                         {item?.attributes?.patient?.data?.attributes?.Governorate}-
                         {item?.attributes?.patient?.data?.attributes?.City}-
                         {item?.attributes?.patient?.data?.attributes?.Street}
@@ -114,20 +116,20 @@ function Table({ patient }) {
                     <td className="px-4 py-2 text-center">
 
 
-                      <Link href={`/NewCheckUP/${item?.attributes?.patient?.data?.id}`}>
+                      <Link href={`/NewCheckUP/${item?.attributes?.patient?.data?.id}?iD=${item?.attributes?.doctor?.data?.id}&AId=${item?.id}`}>
                         {item?.attributes?.patient?.data?.attributes?.Gender}
                       </Link>
 
                     </td>
                     <td className="px-4 py-2 text-center">
-                      <Link href={`/NewCheckUP/${item?.attributes?.patient?.data?.id}`}>
+                      <Link href={`/NewCheckUP/${item?.attributes?.patient?.data?.id}?iD=${item?.attributes?.doctor?.data?.id}&AId=${item?.id}`}>
                         {item?.attributes?.patient?.data?.attributes?.NationalId}
                       </Link>
 
                     </td>
                     <td className="px-4 py-2 text-center">
 
-                      <Link href={`/NewCheckUP/${item?.attributes?.patient?.data?.id}`}>
+                      <Link href={`/NewCheckUP/${item?.attributes?.patient?.data?.id}?iD=${item?.attributes?.doctor?.data?.id}&AId=${item?.id}`}>
                         {item?.attributes?.date}-
                         {item?.attributes?.time}
 

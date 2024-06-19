@@ -9,27 +9,116 @@ import React, { useEffect, useState } from 'react'
 import PatientApis from '../../_utils/PatientApis'
 import Swal from 'sweetalert2'
 import medicalrecordsAPI from '../../_utils/medicalrecordsAPI'
+import { useSearchParams } from 'next/navigation';
+import LaboratoryAPIs from '../../_utils/LaboratoryAPIs'
+import AppointmentsApi from '../../_utils/AppointmentsApi'
 import TestFields from '../_components/TestFields'
+import Select from 'react-select';
+import { FaPlus, FaMinus } from 'react-icons/fa';
 
 export default function Component({ PatientId }) {
 
-
+    const searchParams = useSearchParams();
+    const doctorId =searchParams.get('iD');
+    const AppointmentID =searchParams.get('AId');
     const [height, setHeight] = useState('');
     const [weight, setWeight] = useState('');
     const [body_Mass_Index, setBody_Mass_Index] = useState('');
     const [blood_Pressure, setBlood_Pressure] = useState('');
     const [prescription, setPrescription] = useState('');
     const [doctor_Files, setDoctor_Files] = useState();
+    const [labCategories, setLabCategories] = useState([]);
+    const [testOrder, setTestOrder] = useState('');
+    const [Lab,setLab] = useState();
+    console.log(Lab)
 
-    const [testFields, setTestFields] = useState([
-        { id: 1, value: '' },
-    ]);
+    const [inputValues, setInputValues] = useState(['']);
 
-    const handleAddTestField = () => {
-        setTestFields([...testFields, { id: testFields.length + 1, value: '' }]);
-    };
+    const handleAddInput = () => {
+        setInputValues(prevValues => {
+          const newInputValues = [...prevValues, ''];
+          const newTestOrder = newInputValues.map((value, i) => `${i + 1}.${value}`).join('\n');
+          setTestOrder(newTestOrder);
+          return newInputValues;
+        });
+      };
+    
+      const handleRemoveInput = (index) => {
+        setInputValues(prevValues => {
+          const newInputValues = prevValues.filter((value, i) => i !== index);
+          const newTestOrder = newInputValues.map((value, i) => `${i + 1}.${value}`).join('\n');
+          setTestOrder(newTestOrder);
+          return newInputValues;
+        });
+      };
+    
+      const handleInputChanges = (index, event) => {
+        const newInputValues = [...inputValues];
+        newInputValues[index] = event.target.value;
+        setInputValues(newInputValues);
+
+        // Update testOrder with the new input values
+        const newTestOrder = newInputValues.map((value, i) => `${i + 1}. ${value}`).join('\n');
+        setTestOrder(newTestOrder);
+      };
 
     console.log(PatientId)
+
+    /*
+    ! -------------------------------Start options lab Category -------------------------------------------- 
+    */
+
+    const handleCheckboxChange = (event) => {
+        if (event.target.checked) {
+          setLabCategories([...labCategories, event.target.value]);
+        } else {
+          setLabCategories(labCategories.filter(category => category !== event.target.value));
+        }
+      };
+    
+      const sortOrder = ['CT', 'MRI', 'Pulmonology', 'XRay']
+      const sortedLabCategories = labCategories.sort((a, b) => sortOrder.indexOf(a) - sortOrder.indexOf(b));
+      const labCategory = sortedLabCategories.join('-');
+
+      const [LabsFilteredByLabCategory, setLabsFilteredByLabCategory] =  useState();
+
+      useEffect(() => {
+        getLabByLabCategory_();
+      }, [labCategory])
+
+      const getLabByLabCategory_ = () => {
+        LaboratoryAPIs.getLabByLabCategory(labCategory).then(res => {
+          console.log(labCategory);
+          console.log(res.data.data);
+        //   setAllHospitals(res.data.data);
+          const options = res.data.data.map(lab=>({
+            value: lab.id,
+            label: lab?.attributes?.Name
+          }));
+          setLabsFilteredByLabCategory(options)
+      
+        })
+      }
+    
+
+
+
+
+    // const options = [
+    //     { value: 'general specialty', label: 'general specialty' },
+    //     { value: 'Anatomical Pathology', label: 'Anatomical Pathology' },
+    //     { value: 'Anesthesiology', label: 'Anesthesiology' },
+    //     { value: 'Cardiology', label: 'Cardiology' },
+    //     { value: 'Cardiovascular', label: 'Cardiovascular' },
+    //     { value: 'Clinical Immunology', label: 'Clinical Immunology' },
+    //     { value: 'Critical Care Medicine', label: 'Critical Care Medicine' },
+    //     { value: 'Dermatology', label: 'Dermatology' },
+    //   ];
+
+      /*
+    ! -------------------------------end options lab Category-------------------------------------------- 
+    */
+    
     /*
     ! -------------------------------calculateAge Start-------------------------------------------- 
     */
@@ -65,7 +154,7 @@ export default function Component({ PatientId }) {
     */
 
 /*
-  !----------getMedicalRecords----------------------------Start Random Number for Medical_Record_Id -----------------------------------------------
+  !------------------------------------Start Random Number for Medical_Record_Id -------------------------------------
 */ 
 
 const [MedicalRecords, setMedicalRecords] = useState([]);
@@ -187,15 +276,27 @@ const uploadPdf = async () => {
                 Body_Mass_Index:body_Mass_Index,
                 Blood_Pressure:blood_Pressure,
                 prescription:prescription,
-                doctor_Files:doctor_Files
-                
-
+                doctor_Files:doctor_Files,
+                Test_Orders:testOrder,
+                laboratory:Lab,
+                doctor:doctorId
             }
         }
 
+        Swal.fire({
+            title: 'Uploading Your Pdf...',
+            html: '<img class="my-loading-gif" src="/heart_loading.gif" alt="Loading..." />',
+            showConfirmButton: false,
+            allowOutsideClick: false,
+            allowEscapeKey: false,
+            allowEnterKey: false,
+            customClass: {
+              popup: 'my-custom-popup'
+            }
+          });
         medicalrecordsAPI.AddNewMedicalRecordForExistingPatient(data).then((res) => {
             // console.log("🚀 ~ PostDoctor.addDoctor ~ res:", res)
-
+            Swal.close();
             Swal.fire({
                 title: "Congratulations",
                 text: "Added successfully",
@@ -212,6 +313,18 @@ const uploadPdf = async () => {
             });
         });
 
+        const updatedAppointment = {
+            data: {
+                State:'1'
+            }
+        }
+
+        AppointmentsApi.UpdateAppointmentState(AppointmentID,updatedAppointment).then((res)=>{
+            console.log(res)
+  
+        }).catch((err) => {
+            console.log(err)
+        });
 
     }
 
@@ -344,20 +457,7 @@ const uploadPdf = async () => {
                                             required
                                         />
                                     </div>
-                                    <div>
-                                        <div className="text-sm text-blue-500 font-bold opacity-40">pulse</div>
-                                        <input
-                                            type="text"
-                                            // placeholder="Enter pulse"
-                                            // w-full border border-gray-400 rounded-md bg-gray-100 px-2 py-1 
-                                            className="text-black  w-full border border-gray-400 rounded-md bg-gray-100 px-2 py-1 opacity-40"
-                                            name="pulse"
-                                            value={height}
-                                            onChange={(e) => setHeight(e.target.value)}
-                                            required
-                                            disabled
-                                        />
-                                    </div>
+                                    
                                 </div>
                             </div>
                         </div>
@@ -415,7 +515,7 @@ const uploadPdf = async () => {
                                         <div>
                                             <div class="flex flex-col items-center mb-6">
                                                 <label class="cursor-pointer">
-                                                    <input type="checkbox" class="peer sr-only" />
+                                                    <input type="checkbox" value="MRI" onChange={handleCheckboxChange} checked={labCategories.includes('MRI')} class="peer sr-only" />
                                                     <div class="rounded-xl bg-white p-5 text-gray-600 shadow-xl ring-2 ring-transparent transition-all hover:shadow-xl hover:ring-blue-400 peer-checked:text-blue-500 peer-checked:ring-blue-500 peer-checked:ring-offset-2 w-40 h-30">
                                                         <div class="flex flex-col items-center">
                                                             <Image height={65} src={MRI} width={65} alt="Doctor" class="relative " />
@@ -426,7 +526,7 @@ const uploadPdf = async () => {
                                             </div>
                                             <div class="flex flex-col items-center">
                                                 <label class="cursor-pointer">
-                                                    <input type="checkbox" class="peer sr-only" />
+                                                    <input type="checkbox" value="XRay" onChange={handleCheckboxChange} checked={labCategories.includes('XRay')} class="peer sr-only" />
                                                     <div class="rounded-xl bg-white p-5 text-gray-600 shadow-xl ring-2 ring-transparent transition-all hover:shadow-xl hover:ring-blue-400 peer-checked:text-blue-500 peer-checked:ring-blue-500 peer-checked:ring-offset-2 w-40 h-30">
                                                         <div class="flex flex-col items-center">
                                                             <Image height={62} src={X_Ray} width={62} alt="Doctor" class="relative" />
@@ -439,7 +539,7 @@ const uploadPdf = async () => {
                                         <div >
                                         <div class="flex flex-col items-center mb-6">
                                                 <label class="cursor-pointer">
-                                                    <input type="checkbox" class="peer sr-only"/>
+                                                    <input type="checkbox" value="CT" onChange={handleCheckboxChange} checked={labCategories.includes('CT')} class="peer sr-only"/>
                                                     <div class="rounded-xl  bg-white p-5 text-gray-600 shadow-xl ring-2 ring-transparent transition-all hover:shadow-xl hover:ring-blue-400 peer-checked:text-blue-500 peer-checked:ring-blue-500 peer-checked:ring-offset-2 w-40 h-30">
                                                         <div class="flex flex-col items-center">
                                                             <Image height={62} src={CT} width={62} alt="Doctor" class="relative" />
@@ -450,7 +550,7 @@ const uploadPdf = async () => {
                                             </div>
                                             <div class="flex flex-col items-center">
                                                 <label class="cursor-pointer">
-                                                    <input type="checkbox" class="peer sr-only" />
+                                                    <input type="checkbox" value="Pulmonology" onChange={handleCheckboxChange} checked={labCategories.includes('Pulmonology')} class="peer sr-only" />
                                                     <div class=" rounded-xl bg-white p-5 text-gray-600 shadow-xl ring-2 ring-transparent transition-all hover:shadow-xl hover:ring-blue-400 peer-checked:text-blue-500 peer-checked:ring-blue-500 peer-checked:ring-offset-2 w-40 h-30">
                                                         <div class="flex flex-col items-center">
                                                             <Image height={59} src={Pulm} width={59} alt="Doctor" class="relative" />
@@ -462,12 +562,14 @@ const uploadPdf = async () => {
                                         </div>
                                     </div>
 
+                                    <div>Selected Categories: {labCategory}</div>
+
                                     <div className='py-6'>
                                         <div class="space-y-2 max-w-md">
                                             <label class="text-sm text-black " for="Laboratory">
                                                 Select Laboratory
                                             </label>
-                                            <select
+                                            {/* <select
                                                 class="w-full border border-gray-400 rounded-md bg-gray-100 px-2 py-2 text-black flex justify-center"
                                                 id="specialization"
                                                 required
@@ -476,18 +578,54 @@ const uploadPdf = async () => {
                                                 <option value="Laboratory2">Laboratory1</option>
                                                 <option value="Laboratory3">Laboratory1</option>
                                                 <option value="Laboratory4">Laboratory1</option>
-                                            </select>
+                                            </select> */}
+                                             <Select
+                                             options={LabsFilteredByLabCategory}
+                                             onChange={(selectedOption) => setLab(selectedOption.value)}
+                                            />
                                         </div>
                                     </div>
 
-                                    <div className="space-y-2 max-w-md">
+                                    {/* <div className="space-y-2 max-w-md">
 
                                         <label className="text-sm text-black" htmlFor="labNote">
                                             Test Orders (Optional)
                                         </label>
 
                                         <TestFields testFields={testFields} onAddTestField={handleAddTestField} />
-                                    </div>
+                                    </div> */}
+                                     <div className="space-y-2 max-w-md">
+                                        <label className="text-sm text-black" htmlFor="labNote">
+                                            Test Orders (Optional)
+                                        </label>
+                                        {inputValues.length > 0 ? (
+                                            inputValues.map((value, index) => (
+                                            <div key={index} className="flex items-center space-x-2">
+                                                <input
+                                                className='flex-grow border border-gray-400 rounded-md bg-gray-100 px-2 py-2 text-black'
+                                                value={value}
+                                                onChange={event => handleInputChanges(index, event)}
+                                                />
+                                                <button onClick={() => handleRemoveInput(index)}>
+                                                <FaMinus />
+                                                </button>
+                                                {index === inputValues.length - 1 && (
+                                                <button onClick={handleAddInput}>
+                                                    <FaPlus />
+                                                </button>
+                                                )}
+                                            </div>
+                                            ))
+                                        ) : (
+                                            <button onClick={handleAddInput}>
+                                            <FaPlus /> Add Input
+                                            </button>
+                                        )}
+                                        <div>
+                                            {/* Test Order: {testOrder} */}
+                                            {console.log(testOrder)}
+                                     </div>
+    </div>
 
                                 </div>
 
@@ -535,6 +673,26 @@ function UserIcon(props) {
         </svg>
     )
 }
+
+
+
+
+
+
+
+{/* <div>
+    <div className="text-sm text-blue-500 font-bold opacity-40">pulse</div>
+    <input
+        type="text"
+        // placeholder="Enter pulse"
+        // w-full border border-gray-400 rounded-md bg-gray-100 px-2 py-1 
+        className="text-black  w-full border border-gray-400 rounded-md bg-gray-100 px-2 py-1 opacity-40"
+        name="pulse"
+        value={height}
+        onChange={(e) => setHeight(e.target.value)}
+        required
+        disabled />
+</div> */}
 
 
 

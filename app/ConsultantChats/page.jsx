@@ -44,5 +44,6 @@ function Chats() {
   )
 }
 
-export default withAuth(Chats);
+// export default withAuth(Chats);
+export default Chats;
 

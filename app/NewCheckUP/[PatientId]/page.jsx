@@ -28,5 +28,6 @@ function Checkup({params}) {
     </>
   )
 }
+export default Checkup
 // patient={Patients}
-export default withAuth(Checkup)
+// export default withAuth(Checkup)

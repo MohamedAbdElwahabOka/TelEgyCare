@@ -5,6 +5,8 @@ import Link from 'next/link';
 
 function TestResults({ patient }) {
 
+  const cloudinaryPngUrl = "https://res.cloudinary.com/dlw9u7jf0/image/upload/v1719054709/vscode_icons_file_type_pdf2_b29bc1d7a5.png";
+  const fileUrl= patient?.[0]?.attributes?.doctor_Files?.data[0]?.attributes?.url ;
   const [searchTerm, setSearchTerm] = useState('');
 
   const filteredData = patient.filter(item => {
@@ -37,6 +39,7 @@ function TestResults({ patient }) {
               <th className="px-2 py-2">Adress</th>
               <th className="px-2 py-2">Gender</th>
               <th className="px-2 py-2">Blood Type</th>
+              <th className="px-2 py-2">PDFs</th>
             </tr>
           </thead>
           <tbody>
@@ -44,7 +47,7 @@ function TestResults({ patient }) {
 
               filteredData.map((item, index) => (
                 <tr key={index}>
-                  {item?.attributes?.pres_state == 1|| 2 ? <>
+                  {item?.attributes?.pres_state == 1 || 2 ? <>
 
                     <td className="px-4 py-2 text-center">
 
@@ -99,15 +102,35 @@ function TestResults({ patient }) {
                         {item?.attributes?.patient?.data?.attributes?.Blood_Type}
                       </Link>
                     </td>
+
+                    <td className=" px-4 py-2">
+                      {fileUrl ? (
+                        <Link href={fileUrl} target="_blank" download="medical_report.pdf" className="text-blue-400 hover:underline">
+                          <div className="flex justify-center items-center h-full w-full">
+                            <img
+                              src={cloudinaryPngUrl}
+                              alt="PDF Icon"
+                              className="w-10 h-10"
+                            />
+                          </div>
+                        </Link>
+                      ) : (
+                        <div className="text-center text-red-500">
+                          No PDF available
+                        </div>
+                      )}
+
+                    </td>
+
                   </> : <></>}
                 </tr>
 
               )))
-               : (
-              <div className="flex justify-center items-center w-full h-96">
-                <h1 className="text-2xl text-gray-500">No Patients Found</h1>
-              </div>
-            )
+              : (
+                <div className="flex justify-center items-center w-full h-96">
+                  <h1 className="text-2xl text-gray-500">No Patients Found</h1>
+                </div>
+              )
             }
           </tbody>
         </table>

@@ -35,7 +35,7 @@ function Table({ patient }) {
   return (
     <div className="p-4 bg-gray-100">
       <div className="flex justify-between mb-4">
-        <h1 className="text-2xl font-bold text-black ">Patient List</h1>
+        <h1 className="text-2xl font-bold text-blue-500 ">Patient List</h1>
         <input
           type="text"
           value={searchTerm}
@@ -63,7 +63,7 @@ function Table({ patient }) {
             {filteredData.length > 0 ? (
               filteredData.map((item, index) => (
                 <tr key={index} >
-                  {item?.attributes?.State !='1' ? <>
+                  {item?.attributes?.State != '1' ? <>
                     <td className="px-4 py-2 text-center">
 
                       <Link href={`/NewCheckUP/${item?.attributes?.patient?.data?.id}?iD=${item?.attributes?.doctor?.data?.id}&AId=${item?.id}`}>

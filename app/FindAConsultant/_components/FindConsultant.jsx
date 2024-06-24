@@ -84,10 +84,10 @@ function FindConsultant({ data, consultant }) {
                   className="consultant bg-gray-100 p-4 rounded shadow-md flex flex-col w-full"
                 >
                   <div className="consultant-info flex items-center mb-4">
-                    <Image src={item?.attributes?.pic?.data?.attributes?.formats?.small?.url} width={50} height={50} alt="Consultant Icon" />
+                    <Image src={item?.attributes?.doctor_Pic?.data?.attributes?.formats?.thumbnail?.url} width={50} height={30} alt="Consultant Icon" style={{ borderRadius: '15%' }} />
                     <div className="details ml-4">
-                      <h3 className="text-black">{item?.attributes?.Name}</h3>
-                      <p className="text-sm text-gray-500">{item?.attributes?.Type_of_Spec}</p>
+                      <h3 className="font-semibold mr-2 w-24">{item?.attributes?.Name}</h3>
+                      <p className="text-gray-600">{item?.attributes?.Type_of_Spec}</p>
                       <div className="rating flex items-center">
                       </div>
                     </div>

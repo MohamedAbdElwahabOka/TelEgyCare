@@ -7,10 +7,10 @@ function CorD() {
     const handleInputClick = (value) => {
         if (value === 'Doctor') {
             // setTimeout(() => {
-              router.push('/SignUp?D=Doctor'); // replace '/signup' with the actual path to your signup page
+              router.push('/SignUp?D=D'); // replace '/signup' with the actual path to your signup page
             // }, 2000);
           }else if(value === 'Consultant'){
-            router.push('/SignUp?D=Consultant');
+            router.push('/SignUp?D=C');
           }
       };
 

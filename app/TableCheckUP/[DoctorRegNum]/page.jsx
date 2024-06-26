@@ -62,5 +62,6 @@ function PatientId({ params }) {
     </>
   )
 }
-export default withAuth(PatientId);
+// export default withAuth(PatientId);
+export default PatientId;
 

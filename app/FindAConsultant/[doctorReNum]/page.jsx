@@ -87,4 +87,5 @@ function page({ params }) {
       </div>
     </>
   )
-} export default withAuth(page);
+}export default page;
+//  export default withAuth(page);

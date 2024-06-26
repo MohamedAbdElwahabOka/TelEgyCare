@@ -6,7 +6,6 @@ import DoctorApis from "../_utils/DoctorApis";
 
 function UP() {
 
-
   const [doctors, setDoctor] = useState([]);
 
   useEffect(() => {
@@ -24,5 +23,4 @@ function UP() {
     <><SignUp doctors ={doctors}/></>
   )
 }
-
 export default UP

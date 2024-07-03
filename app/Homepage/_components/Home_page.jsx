@@ -42,11 +42,11 @@ function HomePage({ data }) {
 //   }, []);
 
   const logOut = () => {
-    const user = JSON.parse(Cookies.get(`user_${data[0]?.attributes?.reg_Num}`));
-    if (user) {
-      Cookies.remove(`user_${user?.attributes?.reg_Num}`);
+    // const user = (Cookies.get(`user_${data[0]?.attributes?.reg_Num}`));
+    // if (user) {
+      // Cookies.remove(`user_${user?.attributes?.reg_Num}`);
       router.push('/');
-    }
+    // }
   }
 
 

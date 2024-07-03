@@ -279,7 +279,8 @@ const uploadPdf = async () => {
                 doctor_Files:doctor_Files,
                 Test_Orders:testOrder,
                 laboratory:Lab,
-                doctor:doctorId
+                doctor:doctorId,
+                pres_state:'1'
             }
         }
 

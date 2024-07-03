@@ -39,7 +39,8 @@ function TestResults({ patient }) {
               <th className="px-2 py-2">Adress</th>
               <th className="px-2 py-2">Gender</th>
               <th className="px-2 py-2">Blood Type</th>
-              <th className="px-2 py-2">PDFs</th>
+              <th className="px-2 py-2">PDFs doctor</th>
+              <th className="px-2 py-2">PDFs LAb</th>
             </tr>
           </thead>
           <tbody>
@@ -47,7 +48,7 @@ function TestResults({ patient }) {
 
               filteredData.map((item, index) => (
                 <tr key={index}>
-                  {item?.attributes?.pres_state == 1 || 2 ? <>
+                  {item?.attributes?.pres_state == 2 ? <>
 
                     <td className="px-4 py-2 text-center">
 
@@ -104,8 +105,27 @@ function TestResults({ patient }) {
                     </td>
 
                     <td className=" px-4 py-2">
-                      {fileUrl ? (
-                        <Link href={fileUrl} target="_blank" download="medical_report.pdf" className="text-blue-400 hover:underline">
+                      {item?.attributes?.doctor_Files?.data?.[0]?.attributes?.url ? (
+                        <Link href={item?.attributes?.doctor_Files?.data?.[0]?.attributes?.url} target="_blank" download="medical_report.pdf" className="text-blue-400 hover:underline">
+                          <div className="flex justify-center items-center h-full w-full">
+                            <img
+                              src={cloudinaryPngUrl}
+                              alt="PDF Icon"
+                              className="w-10 h-10"
+                            />
+                          </div>
+                        </Link>
+                      ) : (
+                        <div className="text-center text-red-500">
+                          No PDF available
+                        </div>
+                      )}
+
+                    </td>
+                    <td className=" px-4 py-2">
+                    
+                      {item?.attributes?.Lab_Files?.data?.[0]?.attributes?.url ? (
+                        <Link href={item?.attributes?.Lab_Files?.data?.[0]?.attributes?.url} target="_blank" download="medical_report.pdf" className="text-blue-400 hover:underline">
                           <div className="flex justify-center items-center h-full w-full">
                             <img
                               src={cloudinaryPngUrl}
